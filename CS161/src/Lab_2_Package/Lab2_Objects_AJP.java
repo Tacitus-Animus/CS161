@@ -26,6 +26,8 @@ public class Lab2_Objects_AJP
 				case 2: monster.dealDamage(Input.getFloat("Deal damage to monster:"));
 					break;
 				case 3: System.out.println(monster);
+					break;
+				default: System.out.println("Not an option."); 
 			}
 		}
 	}
