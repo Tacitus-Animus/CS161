@@ -33,13 +33,13 @@ public class Lab_2_Program
 							 "\n2. Attack the Monster" +
 							 "\n3. Display Monster Information");
 			//control flow 
-			switch(Input.getInt("Choose option(1-3): "))
+			switch(Input.getDigit("Choose option(1-3): "))
 			{
-				case 1: changeMonsterInfo(monster);
+				case '1': changeMonsterInfo(monster);
 					break;
-				case 2: monster.dealDamage(Input.getFloat("Deal damage to monster: "));
+				case '2': monster.dealDamage(Input.getFloat("Deal damage to monster: "));
 					break;
-				case 3: monster.print();
+				case '3': monster.print();
 					break;
 				default: System.out.println("Not an option."); 
 			}

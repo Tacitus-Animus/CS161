@@ -40,7 +40,7 @@ public class Monster {
 		this.attack = attack;
 	}
 	
-	/**
+	/*
 	 * Basic getters and setters
 	 */
 	public String getName() {
