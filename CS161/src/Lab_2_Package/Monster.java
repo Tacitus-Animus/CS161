@@ -3,6 +3,8 @@ package Lab_2_Package;
 /**
  * <h1>Lab 2 : Objects - Monster Class</h1>
  * This Class is used in Lab_2_Program
+ * <p>
+ * Monster consists of a name, health, and attack.
  * @see Lab_2_Program 
  * @author Alex Paul
  * @version CS161
@@ -37,6 +39,7 @@ public class Monster {
 		this.health = health;
 		this.attack = attack;
 	}
+	
 	/**
 	 * Basic getters and setters
 	 */
@@ -73,7 +76,7 @@ public class Monster {
 	}
 	
 	/**
-	 * This method decreases monsters health and notifies user if the monster is Dead
+	 * This method decreases monsters health and notifies user if the monster is dead.
 	 * @param flt value to be decreased from monster's health.
 	 */
 	public void dealDamage(float flt) {
