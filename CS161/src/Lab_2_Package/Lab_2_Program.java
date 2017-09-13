@@ -33,7 +33,7 @@ public class Lab_2_Program
 							 "\n2. Attack the Monster" +
 							 "\n3. Display Monster Information");
 			//control flow 
-			switch(Input.getDigit("Choose option(1-3): "))
+			switch(Input.getDigitRange("Choose option(1-3): ", '1', '3'))
 			{
 				case '1': changeMonsterInfo(monster);
 					break;
