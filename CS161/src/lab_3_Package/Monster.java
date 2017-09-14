@@ -1,5 +1,4 @@
 package lab_3_Package;
-
 /**
  * <h1>Lab 3 : Objects - Monster Class</h1>
  * This Class is used in Lab_3_Program
@@ -10,7 +9,6 @@ package lab_3_Package;
  * @version CS161
  * @since 9-SEP-17 
  */
-
 public class Monster 
 {
 	private String name;
@@ -20,7 +18,6 @@ public class Monster
 	private int attack; //Not used
 	
 	private int eXP; //Not used
-	
 	/**
 	 * Default constructor call
 	 */
@@ -82,7 +79,6 @@ public class Monster
 			 "\nAttack: " + attack +
 			 "\nEXP: " + eXP;
 	}
-	
 	/**
 	 * This method returns true if user was able to deal damage, else returns false if monster is dead.
 	 * <p> The monster can't take damage if it's dead.
@@ -95,11 +91,11 @@ public class Monster
 			System.out.println(name + " is already dead.");
 			return false;
 		}else{
+			System.out.println("Damage Dealt.");
 			health -= damage;
 			return true;
 		}
 	}
-	
 	/**
 	 * @return true if monster's health is <= 0.
 	 */
@@ -107,7 +103,6 @@ public class Monster
 	{
 		return health <= 0;
 	}
-	
 	/**
 	 * Prints out monster description if alive, else prints DEAD display.
 	 */

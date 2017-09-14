@@ -6,7 +6,6 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.IntStream;
 import utils.Input;
-
 /**
  * <h1>Lab 2 : File IO, Arrays - Main Class File</h1>
  * This is the main program file which gets monster data from a file.
@@ -19,7 +18,6 @@ import utils.Input;
  * @version CS161
  * @since 12-SEP-17 
  */
-
 public class Lab_3_Program 
 {
 	/**
@@ -66,21 +64,12 @@ public class Lab_3_Program
 		}		
 	}
 	/**
-	 * @param monsters array to be printed out in numbered list format.
-	 */
-	private static void printList(Monster[] monsters) 
-	{
-		IntStream.range(0,monsters.length)
-			.forEach(index -> 
-				System.out.println((index + 1) + ". " + monsters[index].getName()));
-	}
-	/**
 	 * @param monsters array to get monster from.
 	 * @return monster at index specified by user.
 	 */
 	private static Monster getMonster(Monster[] monsters) 
 	{
-		return monsters[Input.getIntRange("Enter index: ", 1, monsters.length) - 1];
+		return monsters[Input.getIntRange("Enter index (1-40): ", 1, monsters.length) - 1];
 	}
 	/**
 	 * @param monsters array to get specified monster to display.
@@ -88,7 +77,11 @@ public class Lab_3_Program
 	private static void DisplayMonsterInfo(Monster[] monsters) 
 	{
 		System.out.println("Which monster would you like to Display?");
-		printList(monsters);
+		//prints out monsters in numbered list format.
+		IntStream.range(0,monsters.length)
+			.forEach(index -> 
+				System.out.println((index + 1) + ". " + monsters[index].getName()));
+		
 		getMonster(monsters).print();
 	}
 	/**
@@ -97,7 +90,6 @@ public class Lab_3_Program
 	private static void AttackMonster(Monster[] monsters) 
 	{
 		System.out.println("Which monster would you like to Attack? ");
-		printList(monsters);
 		getMonster(monsters).dealDamage(Input.getFloat("Attack: "));
 	}
 	/**
@@ -106,7 +98,6 @@ public class Lab_3_Program
 	private static void changeMonsterInfo(Monster[] monsters) 
 	{	
 		System.out.println("Which monster would you like to Change? ");
-		printList(monsters);
 		getMonster(monsters)
 			.setName(Input.getString("Enter Name: "))
 			.setHealth(Input.getFloat("Enter Health: "))
