@@ -37,7 +37,8 @@ public class Lab_3_Program
 				//Segregate data.
 				String[] data = monsterData.get(index).split("/");
 				//Create monster via method chaining using segregated data.
-				monsters[index] = new Monster().setName(data[0])
+				monsters[index] = new Monster()	
+											   .setName(data[0])
 											   .setHealth(Float.parseFloat(data[1]))
 											   .setAttack(Integer.parseInt(data[2]))
 											   .setEXP(Integer.parseInt(data[3]));
