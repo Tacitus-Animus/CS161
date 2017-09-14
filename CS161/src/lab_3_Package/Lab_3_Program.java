@@ -31,16 +31,17 @@ public class Lab_3_Program
 		//Instantiate Monster[] to specific size.
 		Monster[] monsters = new Monster[monsterData.size()];
 		//Populate Monster[] with monsterData List in respect to each others' index.
-		IntStream.range(0, monsters.length).forEach(index -> 
-		{
-			//Segregate data.
-			String[] data = monsterData.get(index).split("/");
-			//Create monster via method chaining using segregated data.
-			monsters[index] = new Monster().setName(data[0])
-										   .setHealth(Float.parseFloat(data[1]))
-										   .setAttack(Integer.parseInt(data[2]))
-										   .setEXP(Integer.parseInt(data[3]));
-		});
+		IntStream.range(0, monsters.length)
+			.forEach(index -> 
+			{
+				//Segregate data.
+				String[] data = monsterData.get(index).split("/");
+				//Create monster via method chaining using segregated data.
+				monsters[index] = new Monster().setName(data[0])
+											   .setHealth(Float.parseFloat(data[1]))
+											   .setAttack(Integer.parseInt(data[2]))
+											   .setEXP(Integer.parseInt(data[3]));
+			});
 		//Main loop to get user input.
 		while(true)
 		{	

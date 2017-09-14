@@ -1,6 +1,6 @@
 package lab_3_Package;
 /**
- * <h1>Lab 3 : Objects - Monster Class</h1>
+ * <h1>Lab 3 : File IO, Array - Monster Class</h1>
  * This Class is used in Lab_3_Program
  * <p>
  * Monster consists of a name, health, attack, and EXP.
