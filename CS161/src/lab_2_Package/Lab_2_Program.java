@@ -1,4 +1,4 @@
-package Lab_2_Package;
+package lab_2_Package;
 
 import utils.Input;
 

@@ -1,4 +1,4 @@
-package Lab_2_Package;
+package lab_2_Package;
 
 /**
  * <h1>Lab 2 : Objects - Monster Class</h1>
@@ -11,21 +11,25 @@ package Lab_2_Package;
  * @since 9-SEP-17 
  */
 
-public class Monster {
-
+public class Monster 
+{
 	private String name;
 	
 	private float health;
 	
 	private int attack; //Not used
 	
+	private int eXP;
+	
 	/**
 	 * Default constructor call
 	 */
-	public Monster(){
+	public Monster()
+	{
 		name = "monster";
 		health = 100.0f;
 		attack = 10;
+		eXP = 0;
 	}
 	
 	/**
@@ -34,10 +38,12 @@ public class Monster {
 	 * @param health set health
 	 * @param attack set attack
 	 */
-	public Monster(String name, float health, int attack) {
+	public Monster(String name, float health, int attack, int eXP)
+	{
 		this.name = name;
 		this.health = health;
 		this.attack = attack;
+		this.eXP = eXP;
 	}
 	
 	/*
@@ -47,49 +53,74 @@ public class Monster {
 		return name;
 	}
 
-	public void setName(String name) {
+	public Monster setName(String name) {
 		this.name = name;
+		return this;
 	}
 
 	public float getHealth() {
 		return health;
 	}
 
-	public void setHealth(float health) {
+	public Monster setHealth(float health) {
 		this.health = health;
+		return this;
 	}
 
 	public int getAttack() {
 		return attack;
 	}
 
-	public void setAttack(int attack) {
+	public Monster setAttack(int attack) {
 		this.attack = attack;
+		return this;
+	}
+	
+	public int getEXP() {
+		return eXP;
+	}
+
+	public Monster setEXP(int eXP) {
+		this.eXP = eXP;
+		return this;
 	}
 	
 	@Override
-	public String toString(){
-		return "Monster:" +
+	public String toString()
+	{
+		return !isDead() ? 
+			 "Monster: [ALIVE]" +
 			 "\nName: " + name +
 			 "\nHealth: " + health +
-			 "\nAttack: " + attack;
+			 "\nAttack: " + attack +
+			 "\nEXP: " + eXP 
+			 :
+			 "Monster: [DEAD]";
 	}
 	
 	/**
 	 * This method decreases monsters health and notifies user if the monster is dead.
 	 * @param flt value to be decreased from monster's health.
 	 */
-	public void dealDamage(float flt) {
-		health -= flt;
-		if(isDead()) {
-			System.out.println(name + " died...");
+	public boolean dealDamage(float flt) 
+	{
+		if(isDead()) 
+		{
+			System.out.println(name + " is already dead.");
+			return false;
+		}
+		else
+		{
+			health -= flt;
+			return true;
 		}
 	}
 	
 	/**
 	 * @return true if monster's health is <= 0.
 	 */
-	public boolean isDead() {
+	public boolean isDead() 
+	{
 		return health <= 0;
 	}
 	
@@ -99,5 +130,4 @@ public class Monster {
 	public void print() {
 		System.out.println(this);
 	}
-	
 }

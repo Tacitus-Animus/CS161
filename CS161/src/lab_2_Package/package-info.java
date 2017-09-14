@@ -6,4 +6,4 @@
  * @see Monster
  * @see Lab_2_Program
  */
-package Lab_2_Package;
+package lab_2_Package;
