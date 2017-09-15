@@ -46,6 +46,7 @@ public class Monster
 
 	public Monster setHealth(float health) {
 		this.health = health;
+		if(this.health < 0.0f) this.health = 0.0f;
 		return this;
 	}
 
@@ -55,6 +56,7 @@ public class Monster
 
 	public Monster setAttack(int attack) {
 		this.attack = attack;
+		if(this.attack < 0) this.attack = 0;
 		return this;
 	}
 	
@@ -70,12 +72,11 @@ public class Monster
 	@Override
 	public String toString()
 	{
-		return isDead() ? 
-			 "Monster: [DEAD]"
-			 :
-			 "Monster: [ALIVE]" +
+		String status = isDead() ? "[DEAD]" : "[ALIVE]";
+		
+		return "Monster: " + status +
 			 "\nName: " + name +
-			 "\nHealth: " + health +
+     		 "\nHealth: " + health +
 			 "\nAttack: " + attack +
 			 "\nEXP: " + eXP;
 	}
@@ -91,8 +92,13 @@ public class Monster
 			System.out.println(name + " is already dead.");
 			return false;
 		}else{
-			System.out.println("Damage Dealt.");
+			System.out.println("Damage dealt to " + name);
 			health -= damage;
+			if(isDead())
+			{
+				System.out.println(name + " was killed.");
+				health = 0.0f;
+			}
 			return true;
 		}
 	}
@@ -101,7 +107,7 @@ public class Monster
 	 */
 	public boolean isDead() 
 	{
-		return health <= 0;
+		return health <= 0.0f;
 	}
 	/**
 	 * Prints out monster description if alive, else prints DEAD display.
