@@ -110,7 +110,7 @@ public class Monster
 		return health <= 0.0f;
 	}
 	/**
-	 * Prints out monster description if alive.
+	 * Prints out monster description.
 	 */
 	public void print() {
 		System.out.println(this);
