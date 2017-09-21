@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 import utils.Input;
 /**
- * <h1>Lab 2 : File IO, Arrays - Main Class File</h1>
+ * <h1>Lab 3 : File IO, Arrays - Main Class File</h1>
  * This is the main program file which gets monster data from a file.
  * <p>
  * It parses that data to create a Monster[] with instantiated Monster Objects using said data.

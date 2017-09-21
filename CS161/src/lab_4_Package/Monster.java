@@ -1,13 +1,13 @@
-package lab_3_Package;
+package lab_4_Package;
 /**
- * <h1>Lab 3 : File IO, Array - Monster Class</h1>
- * This Class is used in Lab_3_Program
+ * <h1>Lab 4 : File IO, ArrayList - Monster Class</h1>
+ * This Class is used in Lab_4_Program
  * <p>
  * Monster consists of a name, health, attack, and EXP.
- * @see Lab_3_Program 
+ * @see Lab_4_Program 
  * @author Alex Paul
  * @version CS161
- * @since 9-SEP-17 
+ * @since 9-SEP-20 
  */
 public class Monster 
 {
@@ -79,6 +79,12 @@ public class Monster
 			 "\nEXP: " + eXP;
 	}
 	/**
+	 * @return
+	 */
+	public String getStatus() {
+		return isDead() ? "[DEAD]" : "[ALIVE]";
+	}
+	/**
 	 * This method returns true if user was able to deal damage, else returns false if monster is dead.
 	 * <p> The monster can't take damage if it's dead.
 	 * @param damage value to be decreased from monster's health.
@@ -112,9 +118,6 @@ public class Monster
 	 */
 	public void print() {
 		System.out.println(this);
-	}
-	public String getStatus() {
-		return isDead() ? "[DEAD]" : "[ALIVE]";
 	}
 }
 
