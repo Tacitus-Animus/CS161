@@ -1,4 +1,4 @@
-Slime/0.0/2/1
+Slime/3.0/2/1
 Chocobo/2.0/2/2
 Murlocs/17.0/11/4
 Daedra/20.0/8/5

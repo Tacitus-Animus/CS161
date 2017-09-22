@@ -25,8 +25,10 @@ import utils.Input;
  * @version CS161
  * @since 12-SEP-20 
  */
-public class Lab_4_Program {
-	public static void main(String[] args) throws IOException {
+public class Lab_4_Program 
+{
+	public static void main(String[] args) throws IOException 
+	{
 		//Load default monster file.
 		ArrayList<Monster> monsters = LoadMonsters("MONSTERLIST.txt");
 		
@@ -80,7 +82,6 @@ public class Lab_4_Program {
 								newMonster.getName() +" : " + 
 								newMonster.getStatus());
 		});
-		
 		return monsters;
 	}
 	/**
@@ -98,11 +99,14 @@ public class Lab_4_Program {
 			IntStream.range(0, monsters.size()).forEach(index -> 
 			{
 				String[] monsterData = new String[4];
+				
 				monsterData[0] = monsters.get(index).getName();
 				monsterData[1] = String.valueOf(monsters.get(index).getHealth());
 				monsterData[2] = String.valueOf(monsters.get(index).getAttack());
 				monsterData[3] = String.valueOf(monsters.get(index).getEXP());
+				
 				String joinedData = String.join("/", monsterData);
+				
 				writer.println(joinedData);
 			});
 			writer.close();
@@ -133,10 +137,10 @@ public class Lab_4_Program {
 	private static void attackMonster(ArrayList<Monster> monsters) 
 	{
 		getMonster(monsters, "Which monster would you like to Attack: ")
-		.ifPresent(monster -> 
-		{
-			monster.dealDamage(Input.getFloat("Attack: "));
-		});
+			.ifPresent(monster -> 
+			{
+				monster.dealDamage(Input.getFloat("Input attack damage: "));
+			});
 	}
 	/**
 	 * This method makes use of getMonster() method and prints out
@@ -146,9 +150,6 @@ public class Lab_4_Program {
 	private static void displayMonsterInfo(ArrayList<Monster> monsters) 
 	{		
 		getMonster(monsters, "Which monster would you like to Display? ")
-		.ifPresent(monster -> 
-		{
-			monster.print();
-		});
+			.ifPresent(Monster::print);
 	}
 }
