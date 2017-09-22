@@ -1,12 +1,15 @@
 package lab_4_Package;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
@@ -60,41 +63,45 @@ public class Lab_4_Program
 	 * @return ArrayList<Monster> from loaded file.
 	 * @throws IOException if file can't be read.
 	 */
-	private static ArrayList<Monster> LoadMonsters(String file) throws IOException 
+	private static ArrayList<Monster> LoadMonsters(String file) 
 	{
-		List<String> monsterData = Files.readAllLines(Paths.get(file));
+		List<String> monsterData = null;
+	
+		try {
+			monsterData = Files.readAllLines(Paths.get(file));
+		} catch (IOException e) {/*Lazy*/}
 
 		ArrayList<Monster> monsters = new ArrayList<>();
 
-		IntStream.range(0, monsterData.size()).forEach(index -> 
+		for(int index = 0; index < monsterData.size(); index++) 
 		{
 			String[] data = monsterData.get(index).split("/");
 
 			Monster newMonster = new Monster()	
-					   .setName(data[0])
-					   .setHealth(Float.parseFloat(data[1]))
-					   .setAttack(Integer.parseInt(data[2]))
-					   .setEXP(Integer.parseInt(data[3]));
-			
+									   .setName(data[0])
+									   .setHealth(Float.parseFloat(data[1]))
+									   .setAttack(Integer.parseInt(data[2]))
+									   .setEXP(Integer.parseInt(data[3]));
 			monsters.add(newMonster);
 			
 			System.out.println((index + 1) + ". " + 
 								newMonster.getName() +" : " + 
 								newMonster.getStatus());
-		});
+		}
 		return monsters;
 	}
 	/**
 	 * This method iterates over a monster ArrayList to parse, congregate, and print by line
 	 * <p> monster object data to file.
 	 * @param monsters list to save to file.
-	 * @throws FileNotFoundException
+	 * @throws IOException 
 	 */
-	private static void saveToFile(ArrayList<Monster> monsters) throws FileNotFoundException 
+	private static void saveToFile(ArrayList<Monster> monsters) throws IOException 
 	{
-			PrintWriter writer = new PrintWriter(
-								 new File(
-								 Input.getString("Enter file name to save monsters to: ")));
+			BufferedWriter writer = new BufferedWriter(
+									new FileWriter(
+									new File(
+									Input.getString("Enter file name to save monsters to: "))));
 			
 			IntStream.range(0, monsters.size()).forEach(index -> 
 			{
@@ -104,10 +111,12 @@ public class Lab_4_Program
 				monsterData[1] = String.valueOf(monsters.get(index).getHealth());
 				monsterData[2] = String.valueOf(monsters.get(index).getAttack());
 				monsterData[3] = String.valueOf(monsters.get(index).getEXP());
+								
+				try {
+					writer.write(String.join("/", monsterData));
+					writer.newLine();
+				} catch (IOException e) {};
 				
-				String joinedData = String.join("/", monsterData);
-				
-				writer.println(joinedData);
 			});
 			writer.close();
 	}
