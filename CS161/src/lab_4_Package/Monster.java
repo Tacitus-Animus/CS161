@@ -70,6 +70,13 @@ public class Monster
 	}
 	
 	@Override
+	public boolean equals(Object other) {
+		return (other instanceof Monster && this == (Monster)other) 
+				|| 
+			   (other instanceof String && this.name.equals((String)other));
+	}
+	
+	@Override
 	public String toString()
 	{		
 		return "Monster: " + getStatus() +
@@ -79,7 +86,7 @@ public class Monster
 			 "\nEXP: " + eXP;
 	}
 	/**
-	 * @return
+	 * @return [DEAD] or [ALIVE]
 	 */
 	public String getStatus() {
 		return isDead() ? "[DEAD]" : "[ALIVE]";
@@ -95,16 +102,21 @@ public class Monster
 		{
 			System.out.println(name + " is already dead.");
 			return false;
-		}else{
-			System.out.println("Damage dealt to " + name);
-			health -= damage;
-			if(isDead())
-			{
-				System.out.println(name + " was killed.");
-				health = 0.0f;
-			}
-			return true;
 		}
+		if(damage <= 0)
+		{
+			System.out.println("No damage inflicted to " + name + ".");
+			return false;
+		}
+		System.out.println("Damage dealt to " + name + ".");
+		health -= damage;
+		
+		if(isDead())
+		{
+			System.out.println(name + " was killed.");
+			health = 0.0f;
+		}
+		return true;
 	}
 	/**
 	 * @return true if monster's health is <= 0.

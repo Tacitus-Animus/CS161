@@ -2,17 +2,13 @@ package lab_4_Package;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.IntStream;
 import utils.Input;
 /**
  * <h1>Lab 4 : File IO, ArrayList - Main Class File</h1>
@@ -37,7 +33,8 @@ public class Lab_4_Program
 		
 		while(true)
 		{	
-			System.out.println("1. Attack Monster" + 
+			System.out.println("------------------------" +
+							 "\n1. Attack Monster" + 
 							 "\n2. Save to Monster File" +
 							 "\n3. Load Monster File" +
 							 "\n4. Display Monster:");
@@ -69,7 +66,7 @@ public class Lab_4_Program
 	
 		try {
 			monsterData = Files.readAllLines(Paths.get(file));
-		} catch (IOException e) {/*Lazy*/}
+		} catch (IOException e) {System.err.println("Load File ERROR!!!");}
 
 		ArrayList<Monster> monsters = new ArrayList<>();
 
@@ -103,49 +100,51 @@ public class Lab_4_Program
 									new File(
 									Input.getString("Enter file name to save monsters to: "))));
 			
-			IntStream.range(0, monsters.size()).forEach(index -> 
-			{
-				String[] monsterData = new String[4];
-				
+			String[] monsterData = new String[4];
+			
+			for(int index = 0; index < monsters.size(); index++) 
+			{	
 				monsterData[0] = monsters.get(index).getName();
-				monsterData[1] = String.valueOf(monsters.get(index).getHealth());
+				monsterData[1] = String.valueOf((int)monsters.get(index).getHealth());
 				monsterData[2] = String.valueOf(monsters.get(index).getAttack());
 				monsterData[3] = String.valueOf(monsters.get(index).getEXP());
 								
 				try {
 					writer.write(String.join("/", monsterData));
 					writer.newLine();
-				} catch (IOException e) {};
-				
-			});
+				} catch (IOException e) { System.err.println("File Save ERROR!!!");};
+			};
 			writer.close();
+			System.out.println("File Saved...");
 	}
 	/**
 	 * This method searches for user specified monster by name.
-	 * <p> The search could come up empty; Notifies user if the monster is found/not found.
+	 * <p> The search could come up empty returning an empty Optional of Monster; 
+	 * <p>Notifies user if the monster is found/not found.
 	 * @param monsters array to get monster from.
 	 * @param prompt is shown to the user.
-	 * @return Optional of monster at index specified by user(could be empty).
+	 * @return Optional of Monster.
 	 */
-	private static Optional<Monster> getMonster(ArrayList<Monster> monsters, String prompt) 
+	private static Optional<Monster> searchMonster(ArrayList<Monster> monsters, String prompt) 
 	{
-		String input = Input.getString(prompt);
+		String userInput = Input.getString(prompt);
 		
-		Optional<Monster> search = monsters.stream().filter(monster -> 
-			monster.getName().equals(input)).findFirst();
+		@SuppressWarnings("unlikely-arg-type")
+		Optional<Monster> search = monsters.stream()
+			.filter(monster -> monster.equals(userInput)).findFirst();
 		
 		System.out.println(search.isPresent() ? "Monster found." : "Monster not found.");
 		
 		return search;
 	}
 	/**
-	 * This method makes use of getMonster() method and performs damage
-	 * <p> to monster if present.
+	 * This method makes use of getMonster() method and performs user specified damage
+	 * <p> to monster if found.
 	 * @param monsters array to get specified monster to attack.
 	 */
 	private static void attackMonster(ArrayList<Monster> monsters) 
 	{
-		getMonster(monsters, "Which monster would you like to Attack: ")
+		searchMonster(monsters, "Which monster would you like to Attack: ")
 			.ifPresent(monster -> 
 			{
 				monster.dealDamage(Input.getFloat("Input attack damage: "));
@@ -153,12 +152,12 @@ public class Lab_4_Program
 	}
 	/**
 	 * This method makes use of getMonster() method and prints out
-	 * <p> monster info if present.
+	 * <p> monster info if found.
 	 * @param monsters array to get specified monster to display.
 	 */
 	private static void displayMonsterInfo(ArrayList<Monster> monsters) 
 	{		
-		getMonster(monsters, "Which monster would you like to Display? ")
+		searchMonster(monsters, "Which monster would you like to Display? ")
 			.ifPresent(Monster::print);
 	}
 }
