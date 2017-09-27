@@ -94,7 +94,7 @@ public class Lab_4_Program
 	 * @throws IOException 
 	 */
 	private static void saveToFile(ArrayList<Monster> monsters) throws IOException 
-	{
+	{		//mmm... decorator pattern...
 			BufferedWriter writer = new BufferedWriter(
 									new FileWriter(
 									new File(
