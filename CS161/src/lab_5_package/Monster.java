@@ -1,6 +1,9 @@
-package lab_4_Package;
+package lab_5_package;
+
+import java.util.Comparator;
+
 /**
- * <h1>Lab 4 : File IO, ArrayList - Monster Class</h1>
+ * <h1>Lab 5 : File IO, ArrayList - Monster Class</h1>
  * This Class is used in Lab_5_Program
  * <p>
  * Monster consists of a name, health, attack, and EXP.
@@ -11,6 +14,12 @@ package lab_4_Package;
  */
 public class Monster 
 {
+	public static final Comparator<Monster> COMPARE_BY_NAME = (m1,m2) -> m1.getName().compareTo(m2.getName());
+
+	public static final Comparator<Monster> COMPARE_BY_HEALTH = (m1,m2) -> Float.compare(m1.getHealth(), m2.getHealth());
+
+	public static final Comparator<Monster> COMPARE_BY_EXP = (m1,m2) -> Integer.compare(m1.getEXP(), m2.getEXP());
+
 	private String name;
 	
 	private float health;

@@ -73,7 +73,7 @@ public class Lab_4_Program
 		for(int index = 0; index < monsterData.size(); index++) 
 		{
 			String[] data = monsterData.get(index).split("/");
-
+			//mmm... builder pattern... not really...
 			Monster newMonster = new Monster()	
 									   .setName(data[0])
 									   .setHealth(Float.parseFloat(data[1]))

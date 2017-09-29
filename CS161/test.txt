@@ -26,7 +26,7 @@ Arzuros/58/125/43
 Duramboros/136/99/45
 Gendrome/7/23/46
 Gr8maccao/58/104/46
-Khezu/202/81/49
+Khezu/0/81/49
 Gypceros/177/93/50
 Gore_Magala/203/39/55
 Gammoth/271/85/60
