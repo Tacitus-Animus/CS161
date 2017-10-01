@@ -13,9 +13,7 @@ import utils.Input;
  * <p>
  * It parses and injects that data to create a Monster List.
  * <p>
- * Loops to get user input to save/load monsters to/from file...
- * <p>
- * and display and attack specific Monster Object Info in the Monster List.
+ * Loops to get user input to sort and diplay monsters.
  * @see Monster 
  * @author Alex Paul
  * @version CS161
@@ -47,6 +45,12 @@ public class Lab_5_Program
 			}
 		}	
 	}
+	/**
+	 * This method loops through and compares monsters adjacent to one another.
+	 * <p> Swaps if first monster is bigger/higher than second monster in relation to comparator.
+	 * <p> Iterates until sorted.
+	 * @param monsters List to be sorted.
+	 */
 	private static void bubbleSort(ArrayList<Monster> monsters) 
 	{
 		Comparator<Monster> compareStrategy = getCompareStrategy();	
@@ -68,6 +72,11 @@ public class Lab_5_Program
 			end--;
 		}
 	}
+	/**
+	 * This method sorts by first looping through to find the smallest/lowest Monster in relation to comparator.
+	 * <p> Then swaps the first unsorted index with said Monster; Repeats until sorted.
+	 * @param monsters The list to be sorted.
+	 */
 	private static void selectionSort(ArrayList<Monster> monsters)
 	{
 		Comparator<Monster> compareStrategy = getCompareStrategy();		
@@ -87,6 +96,10 @@ public class Lab_5_Program
 			}
 		}
 	}
+	/**
+	 * This method returns a compare strategy used in sorting/comparing monsters. 
+	 * @return the comparator used to compare monsters.
+	 */
 	private static Comparator<Monster> getCompareStrategy()
 	{
 		System.out.println("------------" +
@@ -94,10 +107,9 @@ public class Lab_5_Program
 						 "\n2. Health" +
 						 "\n3. Exp");
 		int input = Input.getDigitRange("Sort by? (1-3): ", '1', '3');
-		
 		if(input == '1') return Monster.COMPARE_BY_NAME;
 		if(input == '2') return Monster.COMPARE_BY_HEALTH;
-		return Monster.COMPARE_BY_EXP;
+						 return Monster.COMPARE_BY_EXP;
 	}
 	/**
 	 * This method iterates over loaded file to parse, segregate, and inject file data by line
@@ -109,24 +121,21 @@ public class Lab_5_Program
 	private static ArrayList<Monster> LoadMonsters(String file) 
 	{
 		List<String> monsterData = null;
-	
 		try {
 			monsterData = Files.readAllLines(Paths.get(file));
-		} catch (IOException e) {System.err.println("Load File ERROR!!!");}
-
+		} catch (IOException e) {
+			System.err.println("Load File ERROR!!!");
+		}
 		ArrayList<Monster> monsters = new ArrayList<>();
-
 		for(int index = 0; index < monsterData.size(); index++) 
 		{
 			String[] data = monsterData.get(index).split("/");
-			//mmm... builder pattern... not really...
 			Monster newMonster = new Monster()	
 									   .setName(data[0])
 									   .setHealth(Float.parseFloat(data[1]))
 									   .setAttack(Integer.parseInt(data[2]))
 									   .setEXP(Integer.parseInt(data[3]));
 			monsters.add(newMonster);
-			
 			System.out.println((index + 1) + ". " + 
 								newMonster.getName() +" : " + 
 								newMonster.getStatus());

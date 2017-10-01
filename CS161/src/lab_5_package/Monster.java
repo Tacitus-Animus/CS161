@@ -14,10 +14,17 @@ import java.util.Comparator;
  */
 public class Monster 
 {
+	/**
+	 * Comparator used to compared monsters by String values of their names.
+	 */
 	public static final Comparator<Monster> COMPARE_BY_NAME = (m1,m2) -> m1.getName().compareTo(m2.getName());
-
+	/**
+	 * Comparator used to compared monsters by Float values of their health.
+	 */
 	public static final Comparator<Monster> COMPARE_BY_HEALTH = (m1,m2) -> Float.compare(m1.getHealth(), m2.getHealth());
-
+	/**
+	 * Comparator used to compared monsters by Integer values of their EXP.
+	 */
 	public static final Comparator<Monster> COMPARE_BY_EXP = (m1,m2) -> Integer.compare(m1.getEXP(), m2.getEXP());
 
 	private String name;

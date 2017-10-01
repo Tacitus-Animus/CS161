@@ -81,11 +81,9 @@ public class Lab_3_Program
 	{
 		System.out.println("Which monster would you like to Display?");
 		//prints out monsters in numbered list format.
-		IntStream.range(0,monsters.length)
-			.forEach(index -> 
-				System.out.println((index + 1) + ". " + monsters[index].getName()));
-		
-		getMonster(monsters).print();
+		for(int i = monsters.length - 1; i >= 0; i--) {
+			System.out.println(monsters[i].getName());
+		}
 	}
 	/**
 	 * @param monsters array to get specified monster to attack.
