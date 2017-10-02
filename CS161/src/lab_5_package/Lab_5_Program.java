@@ -5,7 +5,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
+import java.util.stream.Collectors;
+
 import utils.Input;
 /**
  * <h1>Lab 5 : File IO, ArrayList - Main Class File</h1>
@@ -21,9 +22,12 @@ import utils.Input;
  */
 public class Lab_5_Program 
 {
-	public static void main(String[] args) throws IOException 
+	public static void main(String[] args)
 	{
-		ArrayList<Monster> monsters = LoadMonsters("MONSTERLIST.txt");
+		ArrayList<Monster> initial = LoadMonsters("MONSTERLIST.txt");
+		 
+		@SuppressWarnings("unchecked")
+		ArrayList<Monster> monsters = (ArrayList<Monster>) initial.clone();
 		while(true)
 		{	
 			System.out.println("------------------------" +
@@ -33,17 +37,25 @@ public class Lab_5_Program
 							 "\n4. Display List");
 			switch(Input.getDigitRange("Choose option(1-4): ", '1', '4'))
 			{
-				case '1': monsters = LoadMonsters("MONSTERLIST.txt");
+				case '1': monsters = initial;
 					break;
 				case '2': bubbleSort(monsters);
 					break;
 				case '3': selectionSort(monsters);
 					break;
-				case '4': monsters.forEach(Monster::print);
+				case '4': printList(monsters);
 					break;
 				default: System.out.println("Not an option."); 
 			}
 		}	
+	}
+	/**
+	 * @param monsters
+	 */
+	private static void printList(ArrayList<Monster> monsters) {
+		System.out.println(monsters.stream()
+				.map(Monster::toString)
+				.collect(Collectors.joining("\n----------\n", "\nBeginning of List\n", "\nEnd of List\n")));
 	}
 	/**
 	 * This method loops through and compares monsters adjacent to one another.
@@ -85,7 +97,9 @@ public class Lab_5_Program
 			int minIndex = i;
 			for(int checkIndex = i + 1; checkIndex < monsters.size(); checkIndex++) 
 			{
-				int result = compareStrategy.compare(monsters.get(checkIndex), monsters.get(minIndex));
+				Monster m1 = monsters.get(checkIndex);
+				Monster m2 = monsters.get(minIndex);
+				int result = compareStrategy.compare(m1, m2);
 				if(result == -1) minIndex = checkIndex;
 			}
 			if(i != minIndex)
@@ -118,27 +132,16 @@ public class Lab_5_Program
 	 * @return ArrayList<Monster> from loaded file.
 	 * @throws IOException if file can't be read.
 	 */
-	private static ArrayList<Monster> LoadMonsters(String file) 
-	{
-		List<String> monsterData = null;
+	private static ArrayList<Monster> LoadMonsters(String file)
+	{	
+		ArrayList<Monster> monsters = null;
 		try {
-			monsterData = Files.readAllLines(Paths.get(file));
+			monsters = (ArrayList<Monster>) Files.readAllLines(Paths.get(file))
+					   .stream()
+					   .map(Monster.stringToMonster("/"))
+					   .collect(Collectors.toList());
 		} catch (IOException e) {
 			System.err.println("Load File ERROR!!!");
-		}
-		ArrayList<Monster> monsters = new ArrayList<>();
-		for(int index = 0; index < monsterData.size(); index++) 
-		{
-			String[] data = monsterData.get(index).split("/");
-			Monster newMonster = new Monster()	
-									   .setName(data[0])
-									   .setHealth(Float.parseFloat(data[1]))
-									   .setAttack(Integer.parseInt(data[2]))
-									   .setEXP(Integer.parseInt(data[3]));
-			monsters.add(newMonster);
-			System.out.println((index + 1) + ". " + 
-								newMonster.getName() +" : " + 
-								newMonster.getStatus());
 		}
 		return monsters;
 	}

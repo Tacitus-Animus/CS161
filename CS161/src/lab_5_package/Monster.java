@@ -1,6 +1,7 @@
 package lab_5_package;
 
 import java.util.Comparator;
+import java.util.function.Function;
 
 /**
  * <h1>Lab 5 : File IO, ArrayList - Monster Class</h1>
@@ -146,6 +147,17 @@ public class Monster
 	 */
 	public void print() {
 		System.out.println(this);
+	}
+	public static Function<String, Monster> stringToMonster(String regex) 
+	{
+		return data -> 
+		{
+			String[] parsed = data.split(regex);
+			return new Monster().setName(parsed[0])
+							    .setHealth(Float.parseFloat(parsed[1]))
+							    .setAttack(Integer.parseInt(parsed[2]))
+							    .setEXP(Integer.parseInt(parsed[3]));
+		};
 	}
 }
 
