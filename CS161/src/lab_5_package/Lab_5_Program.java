@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.stream.Collectors;
 
 import utils.Input;
+import utils.Print;
 /**
  * <h1>Lab 5 : File IO, ArrayList - Main Class File</h1>
  * This is the main program file which gets monster data from a file.
@@ -53,7 +54,7 @@ public class Lab_5_Program
 	 * @param monsters
 	 */
 	private static void printList(ArrayList<Monster> monsters) {
-		System.out.println(monsters.stream()
+		Print.out(monsters.stream()
 				.map(Monster::toString)
 				.collect(Collectors.joining("\n----------\n", "\nBeginning of List\n", "\nEnd of List\n")));
 	}
