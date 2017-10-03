@@ -54,9 +54,11 @@ public class Lab_5_Program
 	 * @param monsters
 	 */
 	private static void printList(ArrayList<Monster> monsters) {
-		Print.out(monsters.stream()
-				.map(Monster::toString)
-				.collect(Collectors.joining("\n----------\n", "\nBeginning of List\n", "\nEnd of List\n")));
+		Print.type(monsters.stream()
+				  .map(Monster::toString)
+				  .collect(Collectors.joining("\n----------\n",
+											"\nBeginning of List\n",
+											"\nEnd of List\n")));
 	}
 	/**
 	 * This method loops through and compares monsters adjacent to one another.
@@ -75,7 +77,7 @@ public class Lab_5_Program
 				Monster m1 = monsters.get(j);
 				Monster m2 = monsters.get(j + 1);
 				int result = compareStrategy.compare(m1, m2);
-				if(result == 1)
+				if(result == 1)									//The bubble.
 				{
 					Monster temp = m1;
 					monsters.set(j, m2);
@@ -86,8 +88,8 @@ public class Lab_5_Program
 		}
 	}
 	/**
-	 * This method sorts by first looping through to find the smallest/lowest Monster in relation to comparator.
-	 * <p> Then swaps the first unsorted index with said Monster; Repeats until sorted.
+	 * This method sorts by first looping through to select the smallest/lowest Monster in relation to comparator.
+	 * <p> Then swaps the first unsorted index with selected Monster; Repeats until sorted.
 	 * @param monsters The list to be sorted.
 	 */
 	private static void selectionSort(ArrayList<Monster> monsters)
@@ -95,9 +97,9 @@ public class Lab_5_Program
 		Comparator<Monster> compareStrategy = getCompareStrategy();		
 		for(int i = 0; i < monsters.size(); i++) 
 		{	
-			int minIndex = i;
+			int minIndex = i;														//The selection.
 			for(int checkIndex = i + 1; checkIndex < monsters.size(); checkIndex++) 
-			{
+			{																		
 				Monster m1 = monsters.get(checkIndex);
 				Monster m2 = monsters.get(minIndex);
 				int result = compareStrategy.compare(m1, m2);
