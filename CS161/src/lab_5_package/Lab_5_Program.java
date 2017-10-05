@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import utils.Input;
@@ -24,17 +25,18 @@ import utils.Input;
  * @since 12-SEP-20 
  */
 public class Lab_5_Program 
-{
+{	
 	public static void main(String[] args)
 	{
 		//Used instead of a switch statement.
-		HashMap<Character, Consumer<ArrayList<Monster>>> options = new HashMap<>();
-			options.put('1', (monsters) -> monsters = LoadMonsters("MONSTERLIST.txt"));
-			options.put('2', (monsters) -> bubbleSort(monsters));
-			options.put('3', (monsters) -> selectionSort(monsters));
-			options.put('4', (monsters) -> printList(monsters));
-			
+//		HashMap<Integer, Consumer<ArrayList<Monster>>> options = new HashMap<>();
+//			options.put(1, (monsters) -> monsters = LoadMonsters("MONSTERLIST.txt"));
+//			options.put(2, (monsters) -> bubbleSort(monsters));
+//			options.put(3, (monsters) -> selectionSort(monsters));
+//			options.put(4, (monsters) -> printList(monsters));
+		
 		ArrayList<Monster> monsters = LoadMonsters("MONSTERLIST.txt");
+			
 		
 		while(true)
 		{	
@@ -44,28 +46,33 @@ public class Lab_5_Program
 							 "\n3. Selection Sort" +
 							 "\n4. Display List");
 			
-			char userChoice = Input.getDigitRange("Select options 1-4: ", '1', '4');
+			switch(Input.getIntRange("Select options 1-4: ", 1, 4))
+			{
+				case 1 : monsters = LoadMonsters("MONSTERLIST.txt");
+					break;
+				case 2 : bubbleSort(monsters);
+					break;
+				case 3 : selectionSort(monsters);
+					break;
+				case 4 : printList(monsters);
+					break;
+			}
 			
-			options.get(userChoice).accept(monsters);  
+			//int userChoice = Input.getIntRange("Select options 1-4: ", 1, 4);
+			
+			//options.get(userChoice).accept(monsters);  
 		}	
 	}
+		
 	/**
 	 * This method turns a list of monsters into strings, connects all of them into one string, then prints out the new string.
 	 * @param monsters - The list of monsters to print out.
 	 */
 	private static void printList(ArrayList<Monster> monsters) 
-	{
-		Function<Monster, String> printStrategy = getPrintStrategy();
-		
-		String separation = "\n----------\n";
-		String front = "\nBeginning of List:\n";
-		String end = "\nEnd of List.\n";
-		
-		String monster_list = monsters.stream()										        
-							  		  .map(printStrategy)								
-								  	  .collect(Collectors.joining(separation, front, end));	
-		
-		System.out.println(monster_list);
+	{		
+		System.out.println(monsters.stream()										        
+		  		  			.map(getPrintStrategy())								
+		  		  			.collect(Collectors.joining("\n----------\n")));
 	}
 	/**
 	 * This method asks user for to specifics on what should be printed out by printList method.
@@ -171,7 +178,7 @@ public class Lab_5_Program
 	 */
 	private static ArrayList<Monster> LoadMonsters(String file)
 	{	
-		ArrayList<Monster> monsters = null;
+		ArrayList<Monster> monsters = new ArrayList<>();;
 		try {
 			monsters = (ArrayList<Monster>) Files.readAllLines(Paths.get(file))
 					   .stream()
