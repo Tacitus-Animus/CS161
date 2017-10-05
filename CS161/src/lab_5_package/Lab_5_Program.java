@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.function.Consumer;
@@ -28,14 +29,10 @@ public class Lab_5_Program
 	public static void main(String[] args)
 	{
 		//Used instead of a switch statement.
-		HashMap<Character, Consumer<ArrayList<Monster>>> options = new HashMap<>();
-			options.put('1', (monsters) -> monsters = LoadMonsters("MONSTERLIST.txt"));
-			options.put('2', (monsters) -> bubbleSort(monsters));
-			options.put('3', (monsters) -> selectionSort(monsters));
-			options.put('4', (monsters) -> printList(monsters));
+		//HashMap<Character, Consumer<ArrayList<Monster>>> options = buildOptions();
 			
 		ArrayList<Monster> monsters = LoadMonsters("MONSTERLIST.txt");
-		
+				
 		while(true)
 		{	
 			System.out.println("------------------------" +
@@ -44,11 +41,39 @@ public class Lab_5_Program
 							 "\n3. Selection Sort" +
 							 "\n4. Display List");
 			
-			char userChoice = Input.getDigitRange("Select options 1-4: ", '1', '4');
+			switch(Input.getDigitRange("Select options 1-4: ", '1', '4'))
+			{
+				case '1' : monsters = LoadMonsters("MONSTERLIST.txt");
+					break;
+				case '2' : bubbleSort(monsters);
+					break;
+				case '3' : selectionSort(monsters);
+					break;
+				case '4' : printList(monsters);
+			};
 			
-			options.get(userChoice).accept(monsters);  
+			//options.get(userChoice).accept(monsters);  
 		}	
 	}
+	
+	/**
+	 * This method puts chars mapped to certain actions into a hashmap. 
+	 * The user can get the appropriate action depending on ones input.
+	 * @return HashMap of chars mapped to Consumables that accept a Monster List.
+	 */
+	private static HashMap<Character, Consumer<ArrayList<Monster>>> buildOptions() 
+	{
+		HashMap<Character, Consumer<ArrayList<Monster>>> options = new HashMap<>();
+		
+			options.put('1', (monsters) -> monsters = LoadMonsters("MONSTERLIST.txt"));
+			options.put('2', (monsters) -> bubbleSort(monsters));
+			options.put('3', (monsters) -> selectionSort(monsters));
+			options.put('4', (monsters) -> printList(monsters));
+			
+		return options;
+	}
+	
+
 	/**
 	 * This method turns a list of monsters into strings, connects all of them into one string, then prints out the new string.
 	 * @param monsters - The list of monsters to print out.
@@ -67,6 +92,7 @@ public class Lab_5_Program
 		
 		System.out.println(monster_list);
 	}
+	
 	/**
 	 * This method asks user for to specifics on what should be printed out by printList method.
 	 * @return Function used to print out specified monster details
@@ -85,6 +111,7 @@ public class Lab_5_Program
 		if(input == '3') return (monster) -> String.valueOf(monster.getEXP());
 						 return Monster::toString;
 	}
+	
 	/**
 	 * This method loops through and compares monsters adjacent to one another.
 	 * <p> Swaps if first monster is bigger/higher than second monster in relation to comparator.
@@ -96,14 +123,14 @@ public class Lab_5_Program
 		Comparator<Monster> compareStrategy = getCompareStrategy();	
 		int end = monsters.size() - 1;
 		
-		for(int i = 0; i < monsters.size(); i++) 
+		for(int i = monsters.size(); i > 0; i--) //The bubble.
 		{
 			for(int j = 0; j < end; j++)
 			{
 				Monster m1 = monsters.get(j);
 				Monster m2 = monsters.get(j + 1);
 				int result = compareStrategy.compare(m1, m2);
-				if(result == 1)	//The bubble.
+				if(result == 1)	
 				{
 					Monster temp = m1;
 					monsters.set(j, m2);
@@ -113,6 +140,7 @@ public class Lab_5_Program
 			end--;
 		}
 	}
+	
 	/**
 	 * This method sorts by first looping through to select the smallest/lowest Monster in relation to comparator.
 	 * <p> Then swaps the first unsorted index with selected Monster; Repeats until sorted.
@@ -127,12 +155,12 @@ public class Lab_5_Program
 			int minIndex = i;		
 			Monster minMonster = monsters.get(minIndex);       
 			
-			for(int checkIndex = i + 1; checkIndex < monsters.size(); checkIndex++) 
+			for(int checkIndex = i + 1; checkIndex < monsters.size(); checkIndex++) //The selection.
 			{																		
 				Monster checkMonster = monsters.get(checkIndex);
 				int result = compareStrategy.compare(checkMonster, minMonster);
 				
-				if(result == -1) //The selection.
+				if(result == -1)
 				{
 					minIndex = checkIndex;
 					minMonster = checkMonster;
@@ -147,6 +175,7 @@ public class Lab_5_Program
 			}
 		}
 	}
+	
 	/**
 	 * This method returns a compare strategy used in sorting/comparing monsters. 
 	 * @return - The comparator used to compare monsters.
@@ -162,16 +191,18 @@ public class Lab_5_Program
 		if(input == '2') return Monster.COMPARE_BY_HEALTH;
 						 return Monster.COMPARE_BY_EXP;
 	}
+	
 	/**
 	 * This method iterates over loaded file to parse, segregate, and inject file data by line
 	 * <p> into individual monster objects that are added to Monster ArrayList.
+	 * @param monsters 
 	 * @param file to load.
 	 * @return ArrayList<Monster> from loaded file.
 	 * @throws IOException if file can't be read.
 	 */
 	private static ArrayList<Monster> LoadMonsters(String file)
 	{	
-		ArrayList<Monster> monsters = null;
+		ArrayList<Monster> monsters = new ArrayList<>();
 		try {
 			monsters = (ArrayList<Monster>) Files.readAllLines(Paths.get(file))
 					   .stream()
