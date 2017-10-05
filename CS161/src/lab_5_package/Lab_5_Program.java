@@ -4,17 +4,15 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import utils.Input;
 /**
- * <h1>Lab 5 : File IO, ArrayList - Main Class File</h1>
+ * <h1>Lab 5 : Bubble/Selection Sort - Main Class File</h1>
  * This is the main program file which gets monster data from a file.
  * <p>
  * It parses and injects that data to create a Monster List.
@@ -28,24 +26,12 @@ import utils.Input;
 public class Lab_5_Program 
 {	
 	public static void main(String[] args)
-	{
-		//Used instead of a switch statement.
-<<<<<<< HEAD
-//		HashMap<Integer, Consumer<ArrayList<Monster>>> options = new HashMap<>();
-//			options.put(1, (monsters) -> monsters = LoadMonsters("MONSTERLIST.txt"));
-//			options.put(2, (monsters) -> bubbleSort(monsters));
-//			options.put(3, (monsters) -> selectionSort(monsters));
-//			options.put(4, (monsters) -> printList(monsters));
-		
+	{	
 		ArrayList<Monster> monsters = LoadMonsters("MONSTERLIST.txt");
-			
 		
-=======
-		//HashMap<Character, Consumer<ArrayList<Monster>>> options = buildOptions();
-			
-		ArrayList<Monster> monsters = LoadMonsters("MONSTERLIST.txt");
+		//Doesn't work; Reset function has no effect.
+		//HashMap<Integer, Consumer<ArrayList<Monster>>> options = buildOptions();
 				
->>>>>>> 8838f8b8ee010a939fad997deb8bcd48c5b84446
 		while(true)
 		{	
 			System.out.println("------------------------" +
@@ -54,7 +40,6 @@ public class Lab_5_Program
 							 "\n3. Selection Sort" +
 							 "\n4. Display List");
 			
-<<<<<<< HEAD
 			switch(Input.getIntRange("Select options 1-4: ", 1, 4))
 			{
 				case 1 : monsters = LoadMonsters("MONSTERLIST.txt");
@@ -66,47 +51,31 @@ public class Lab_5_Program
 				case 4 : printList(monsters);
 					break;
 			}
-			
-			//int userChoice = Input.getIntRange("Select options 1-4: ", 1, 4);
-=======
-			switch(Input.getDigitRange("Select options 1-4: ", '1', '4'))
-			{
-				case '1' : monsters = LoadMonsters("MONSTERLIST.txt");
-					break;
-				case '2' : bubbleSort(monsters);
-					break;
-				case '3' : selectionSort(monsters);
-					break;
-				case '4' : printList(monsters);
-			};
->>>>>>> 8838f8b8ee010a939fad997deb8bcd48c5b84446
-			
-			//options.get(userChoice).accept(monsters);  
+			//Doesn't work; Reset function has no effect.
+			//options.get(Input.getIntRange("Select options 1-4: ", 1, 4)).accept(monsters);  
 		}	
 	}
-<<<<<<< HEAD
 		
-=======
 	
 	/**
 	 * This method puts chars mapped to certain actions into a hashmap. 
 	 * The user can get the appropriate action depending on ones input.
 	 * @return HashMap of chars mapped to Consumables that accept a Monster List.
 	 */
-	private static HashMap<Character, Consumer<ArrayList<Monster>>> buildOptions() 
+	@SuppressWarnings("unused")
+	@Deprecated
+	private static HashMap<Integer, Consumer<ArrayList<Monster>>> buildOptions() 
 	{
-		HashMap<Character, Consumer<ArrayList<Monster>>> options = new HashMap<>();
+		HashMap<Integer, Consumer<ArrayList<Monster>>> options = new HashMap<>();
 		
-			options.put('1', (monsters) -> monsters = LoadMonsters("MONSTERLIST.txt"));
-			options.put('2', (monsters) -> bubbleSort(monsters));
-			options.put('3', (monsters) -> selectionSort(monsters));
-			options.put('4', (monsters) -> printList(monsters));
+			options.put(1, (monsters) -> monsters = LoadMonsters("MONSTERLIST.txt"));
+			options.put(2, (monsters) -> bubbleSort(monsters));
+			options.put(3, (monsters) -> selectionSort(monsters));
+			options.put(4, (monsters) -> printList(monsters));
 			
 		return options;
 	}
-	
 
->>>>>>> 8838f8b8ee010a939fad997deb8bcd48c5b84446
 	/**
 	 * This method turns a list of monsters into strings, connects all of them into one string, then prints out the new string.
 	 * @param monsters - The list of monsters to print out.
@@ -129,12 +98,12 @@ public class Lab_5_Program
 						 "\n3. By EXP" +
 						 "\n4. All monster details");
 		
-		char input = Input.getDigitRange("Display by? (1-4): ", '1', '4');
+		int input = Input.getIntRange("Display by? (1-4): ", 1, 4);
 		
-		if(input == '1') return Monster::getName;
-		if(input == '2') return (monster) -> String.valueOf(monster.getHealth());
-		if(input == '3') return (monster) -> String.valueOf(monster.getEXP());
-						 return Monster::toString;
+		if(input == 1) return Monster::getName;
+		if(input == 2) return (monster) -> String.valueOf(monster.getHealth());
+		if(input == 3) return (monster) -> String.valueOf(monster.getEXP());
+					   return Monster::toString;
 	}
 	
 	/**
@@ -211,9 +180,9 @@ public class Lab_5_Program
 						 "\n1. Name" +
 						 "\n2. Health" +
 						 "\n3. Exp");
-		char input = Input.getDigitRange("Sort by? (1-3): ", '1', '3');
-		if(input == '1') return Monster.COMPARE_BY_NAME;
-		if(input == '2') return Monster.COMPARE_BY_HEALTH;
+		int input = Input.getIntRange("Sort by? (1-3): ", 1, 3);
+		if(input == 1) return Monster.COMPARE_BY_NAME;
+		if(input == 2) return Monster.COMPARE_BY_HEALTH;
 						 return Monster.COMPARE_BY_EXP;
 	}
 	
@@ -227,11 +196,7 @@ public class Lab_5_Program
 	 */
 	private static ArrayList<Monster> LoadMonsters(String file)
 	{	
-<<<<<<< HEAD
-		ArrayList<Monster> monsters = new ArrayList<>();;
-=======
 		ArrayList<Monster> monsters = new ArrayList<>();
->>>>>>> 8838f8b8ee010a939fad997deb8bcd48c5b84446
 		try {
 			monsters = (ArrayList<Monster>) Files.readAllLines(Paths.get(file))
 					   .stream()

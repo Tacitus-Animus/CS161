@@ -4,14 +4,14 @@ import java.util.Comparator;
 import java.util.function.Function;
 
 /**
- * <h1>Lab 5 : File IO, ArrayList - Monster Class</h1>
+ * <h1>Lab 5 : Bubble/Selection Sort - Monster Class</h1>
  * This Class is used in Lab_5_Program
  * <p>
  * Monster consists of a name, health, attack, and EXP.
- * @see Lab_5_Program 
  * @author Alex Paul
  * @version CS161
  * @since 9-SEP-20 
+ * @see Lab_5_Program 
  */
 public class Monster 
 {
