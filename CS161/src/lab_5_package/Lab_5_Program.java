@@ -56,7 +56,6 @@ public class Lab_5_Program
 		}	
 	}
 		
-	
 	/**
 	 * This method puts chars mapped to certain actions into a hashmap. 
 	 * The user can get the appropriate action depending on ones input.
