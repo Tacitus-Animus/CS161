@@ -15,6 +15,9 @@ import java.util.function.Function;
  */
 class Monster 
 {
+	interface MComparator{
+		public int compare(String search, Monster monster);
+	}
 	/**
 	 * Comparator used to compared monsters by String values of their names.
 	 */
@@ -45,18 +48,7 @@ class Monster
 		attack = 10;
 		eXP = 0;
 	}
-	public static int alphabetCompare(String m1, String m2, int index) {
-		char ma = Character.toLowerCase(m1.charAt(index));
-		char mb = Character.toLowerCase(m2.charAt(index));
-		int result = Character.compare(ma, mb);
-		try {
-			if(result == 0) return alphabetCompare(m1, m2, index + 1);
-		}catch(StringIndexOutOfBoundsException e) {
-			return 0;
-		}
-		if(result == -1) return 1;
-		return -1;
-	}
+	
 	/*
 	 * Basic getters and setters
 	 */

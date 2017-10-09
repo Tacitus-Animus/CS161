@@ -8,8 +8,8 @@ public class Testing
 	   String a = "Slime";
 	   String b = "Boo";
 	   
-	   int result = Monster.alphabetCompare(a, b, 0);
+	   //int result = Monster.alphabetCompare(a, b, 0);
 	   
-	   System.out.println(result);
+	   //System.out.println(result);
    }
 }     

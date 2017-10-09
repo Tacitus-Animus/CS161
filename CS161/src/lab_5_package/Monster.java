@@ -13,12 +13,12 @@ import java.util.function.Function;
  * @since 9-SEP-20 
  * @see Lab_5_Program 
  */
-public class Monster 
+public class Monster
 {
 	/**
 	 * Comparator used to compared monsters by String values of their names.
 	 */
-	public static final Comparator<Monster> COMPARE_BY_NAME = (m1,m2) -> m1.getName().compareToIgnoreCase(m2.getName());
+	public static final Comparator<Monster> COMPARE_BY_NAME = (m1,m2) -> m1.getName().compareTo(m2.getName());
 	/**
 	 * Comparator used to compared monsters by Float values of their health.
 	 */
@@ -35,28 +35,6 @@ public class Monster
 	private int attack; //Not used
 	
 	private int eXP; //Not used
-	/**
-	 * Default constructor call
-	 */
-	public Monster()
-	{
-		name = "monster";
-		health = 100.0f;
-		attack = 10;
-		eXP = 0;
-	}
-	public static int alphabetCompare(String m1, String m2, int index) {
-		char ma = Character.toLowerCase(m1.charAt(index));
-		char mb = Character.toLowerCase(m2.charAt(index));
-		int result = Character.compare(ma, mb);
-		try {
-			if(result == 0) return alphabetCompare(m1, m2, index + 1);
-		}catch(StringIndexOutOfBoundsException e) {
-			return 0;
-		}
-		if(result == -1) return 1;
-		return -1;
-	}
 	/*
 	 * Basic getters and setters
 	 */
