@@ -27,9 +27,7 @@ import utils.Output;
 public class Lab_6_Program 
 {
 	public static void main(String[] args) 
-	{		
-		Output.setDelay(5);
-		
+	{				
 		ArrayList<Monster> monsters = LoadMonsters("MONSTERLIST.txt");
 		
 		//Doesn't work; Reset function has no effect.
@@ -46,7 +44,7 @@ public class Lab_6_Program
 			{
 				case 1 : printList(monsters);
 					break;
-				case 2 : quickSort(monsters, 0, monsters.size() - 1, getCompareStrategy());
+				case 2 : quickSort(monsters, 0, monsters.size() - 1, getSortStrategy());
 					break;
 				case 3 : binarySearch(monsters, 0, monsters.size() - 1, getSearchStrategy(), Input.getString("Enter your search criteria: "));
 					break;
@@ -58,34 +56,23 @@ public class Lab_6_Program
 
 	private static Optional<Monster> binarySearch(ArrayList<Monster> monsters, int front, int end, MComparator searchStrategy, String searchValue)
 	{ 
-		int mid = (end - front) / 2;
+		int mid = front + ((end - front) / 2); //interpolate to get middle of front and end bounds.
 				
 		int result = searchStrategy.compare(searchValue, monsters.get(mid));
-				
-		Output.type("Comparing " + mid + " : " + searchValue + " with " + monsters.get(mid).getName());
+						
+		if(result == 0) return Optional.ofNullable(monsters.get(mid));
 		
-		if(result == 0) 
-		{
-			System.out.println("Found Monster");
-			return Optional.ofNullable(monsters.get(mid));
-		}
+		if(result < 0 && mid > 0) return binarySearch(monsters, front, mid - 1, searchStrategy, searchValue);
 		
-		if(result < 0 && mid > 1)
-		{
-			System.out.println("Less");
-			return binarySearch(monsters, 0, mid - 1, searchStrategy, searchValue);
-		}
+		if(result > 0 && end > mid) return binarySearch(monsters, mid + 1, end, searchStrategy, searchValue);
 		
-		if(result > 0 && monsters.size() > mid) 
-		{
-			System.out.println("More");
-			return binarySearch(monsters, mid + 1, end, searchStrategy, searchValue);
-		}
-		
-		System.out.println("Monster not found");
 		return Optional.empty();
 	}
 
+	/**
+	 * This method asks user how 
+	 * @return The strategy used to in binarySearch method.
+	 */
 	private static MComparator getSearchStrategy()
 	{
 		System.out.println("------------" +
@@ -93,13 +80,22 @@ public class Lab_6_Program
 						 "\n2. Health" +
 						 "\n3. Exp" +
 						 "\n4. Attack");
-		int input = Input.getIntRange("Sort by? (1-4): ", 1, 4);
+		
+		int input = Input.getIntRange("Search by? (1-4): ", 1, 4);
+		
 		if(input == 1) return (search, monster) -> search.compareToIgnoreCase(monster.getName());
 		if(input == 2) return (search, monster) -> Float.compare(Float.parseFloat(search), monster.getHealth());
 		if(input == 3) return (search, monster) -> Integer.compare(Integer.parseInt(search), monster.getEXP());
 					   return (search, monster) -> Integer.compare(Integer.parseInt(search), monster.getAttack());
 	}
 	
+	/**
+	 * This method recursively sorts the list within the front and end bounds.
+	 * @param monsters - List to recursively sort.
+	 * @param front - The front bounds of the list.
+	 * @param end - The end bounds of the list.
+	 * @param compareStrategy - The strategy used to sort the list.
+	 */
 	private static void quickSort(ArrayList<Monster> monsters, int front, int end, Comparator<Monster> compareStrategy) 
 	{	
 		int pivot_marker = end;
@@ -130,14 +126,14 @@ public class Lab_6_Program
 		swap(monsters, left_marker, pivot_marker);
 		
 		if(left_marker > 1) quickSort(monsters, 0, left_marker - 1, compareStrategy); 	
-		if(pivot_marker > left_marker + 1) quickSort(monsters, left_marker + 1, pivot_marker, compareStrategy); 
-	
+		else if(pivot_marker > left_marker + 1) quickSort(monsters, left_marker + 1, pivot_marker, compareStrategy); 
 	}
 
 	/**
-	 * @param monsters
-	 * @param indexA
-	 * @param indexB
+	 * This method swaps 2 monsters with one another.
+	 * @param monsters - List to swap 2 monsters in.
+	 * @param indexA - The first monster index to swap.
+	 * @param indexB - The second monster index to swap.
 	 */
 	private static void swap(ArrayList<Monster> monsters, int indexA, int indexB) 
 	{
@@ -150,22 +146,22 @@ public class Lab_6_Program
 	 * This method asks user for compare strategy used in sorting/comparing monsters. 
 	 * @return - The comparator used to compare monsters.
 	 */
-	private static Comparator<Monster> getCompareStrategy()
+	private static Comparator<Monster> getSortStrategy()
 	{
 		System.out.println("------------" +
 						 "\n1. Name" +
 						 "\n2. Health" +
-						 "\n3. Exp");
-		int input = Input.getIntRange("Sort by? (1-3): ", 1, 3);
+						 "\n3. Exp" +
+						 "\n4. Attack");
+		int input = Input.getIntRange("Sort by? (1-4): ", 1, 4);
 		if(input == 1) return Monster.COMPARE_BY_NAME;
 		if(input == 2) return Monster.COMPARE_BY_HEALTH;
-					   return Monster.COMPARE_BY_EXP;
+		if(input == 3) return Monster.COMPARE_BY_EXP;
+					   return Monster.COMPARE_BY_ATTACK;
 	}
 	
 	/**
-	 * This method iterates over loaded file to parse, segregate, and inject file data by line
-	 * <p> into individual monster objects that are added to Monster ArrayList.
-	 * @param monsters 
+	 * This method iterates over loaded file to monster data that are added to Monster ArrayList.
 	 * @param file to load.
 	 * @return ArrayList<Monster> from loaded file.
 	 * @throws IOException if file can't be read.
@@ -196,7 +192,7 @@ public class Lab_6_Program
 	}
 	
 	/**
-	 * This method asks user for to specifics on what should be printed out by printList method.
+	 * This method asks user for print strategy on what should be printed out by printList method.
 	 * @return Function used to print out specified monster details
 	 */
 	private static Function<Monster, String> getPrintStrategy() 	

@@ -5,11 +5,15 @@ public class Testing
 {
    public static void main(String[] args)
    {	   
-	   String a = "Slime";
-	   String b = "Boo";
+	   Monster monster = Monster.stringToMonster(" ").apply("Henry 100 50 25");
 	   
-	   //int result = Monster.alphabetCompare(a, b, 0);
+	   monster.print();
 	   
-	   //System.out.println(result);
+	   String myHealth = monster.getName();
+	   
+	   myHealth = "Jerry";
+	   
+	   monster.print();
+	   
    }
 }     

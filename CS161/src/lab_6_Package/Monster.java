@@ -15,7 +15,8 @@ import java.util.function.Function;
  */
 class Monster 
 {
-	interface MComparator{
+	interface MComparator
+	{
 		public int compare(String search, Monster monster);
 	}
 	/**
@@ -30,6 +31,10 @@ class Monster
 	 * Comparator used to compared monsters by Integer values of their EXP.
 	 */
 	public static final Comparator<Monster> COMPARE_BY_EXP = (m1,m2) -> Integer.compare(m1.getEXP(), m2.getEXP());
+	/**
+	 * Comparator used to compared monsters by Integer values of their Attack.
+	 */
+	public static final Comparator<Monster> COMPARE_BY_ATTACK = (m1,m2) -> Integer.compare(m1.getAttack(), m2.getAttack());
 
 	private String name;
 	
@@ -38,17 +43,6 @@ class Monster
 	private int attack; //Not used
 	
 	private int eXP; //Not used
-	/**
-	 * Default constructor call
-	 */
-	public Monster()
-	{
-		name = "monster";
-		health = 100.0f;
-		attack = 10;
-		eXP = 0;
-	}
-	
 	/*
 	 * Basic getters and setters
 	 */
