@@ -8,10 +8,10 @@ import java.util.Comparator;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
 import lab_6_Package.Monster.MComparator;
 import utils.Input;
 import utils.Output;
+import utils.Visuals;
 /**
  * <h1>Lab 6 : Binary Search/Quick Sort - Main Class File</h1>
  * This is the main program file which gets monster data from a file.
@@ -27,7 +27,9 @@ import utils.Output;
 public class Lab_6_Program 
 {
 	public static void main(String[] args) 
-	{				
+	{			
+		Output.setDelay(10);
+		
 		ArrayList<Monster> monsters = LoadMonsters("MONSTERLIST.txt");
 		
 		//Doesn't work; Reset function has no effect.
@@ -98,35 +100,37 @@ public class Lab_6_Program
 	 */
 	private static void quickSort(ArrayList<Monster> monsters, int front, int end, Comparator<Monster> compareStrategy) 
 	{	
-		int pivot_marker = end;
+		Output.type("Sorting " + front + " to " + end);
+
+		int pivot_marker = front + ((end - front) / 2);
 		
 		int left_marker = front;
 		
-		int right_marker =  pivot_marker - 1;
+		int right_marker =  end;
 		
-		Outer:
-		while(true)
+		
+		while(left_marker != right_marker)
 		{
-			while(compareStrategy.compare(monsters.get(left_marker), monsters.get(pivot_marker)) <= 0)
+			while(left_marker != end && compareStrategy.compare(monsters.get(left_marker), monsters.get(pivot_marker)) <= 0)
 			{
-				if(left_marker == pivot_marker) break Outer;
+				Visuals.see(monsters, pivot_marker, left_marker, right_marker);
 				left_marker++;
 			}
 			
-			while(compareStrategy.compare(monsters.get(right_marker), monsters.get(pivot_marker)) > 0)
+			while(left_marker < right_marker && compareStrategy.compare(monsters.get(right_marker), monsters.get(pivot_marker)) >= 0)
 			{
-				if(right_marker == left_marker) break Outer;
+				//Visuals.see(monsters, pivot_marker, left_marker, right_marker);
 				right_marker--;
 			}
-
-			swap(monsters, left_marker, right_marker);
 			
+			if(compareStrategy.compare(monsters.get(left_marker), monsters.get(right_marker)) > 0) swap(monsters, left_marker, right_marker);
+		
 		}
 		
-		swap(monsters, left_marker, pivot_marker);
+		if(compareStrategy.compare(monsters.get(left_marker), monsters.get(pivot_marker)) > 0) swap(monsters, left_marker, pivot_marker);
 		
-		if(left_marker > 1) quickSort(monsters, 0, left_marker - 1, compareStrategy); 	
-		else if(pivot_marker > left_marker + 1) quickSort(monsters, left_marker + 1, pivot_marker, compareStrategy); 
+		if(left_marker - front > 1) quickSort(monsters, front , left_marker - 1, compareStrategy); 	
+		else if(end - left_marker > 1) quickSort(monsters, left_marker + 1, end, compareStrategy); 
 	}
 
 	/**
@@ -137,6 +141,8 @@ public class Lab_6_Program
 	 */
 	private static void swap(ArrayList<Monster> monsters, int indexA, int indexB) 
 	{
+		
+		Output.type("Swaping " + indexA + " : " + monsters.get(indexA).getHealth() + " with " + indexB + " : " + monsters.get(indexB).getHealth());
 		Monster tempMonster = monsters.get(indexA);
 		monsters.set(indexA, monsters.get(indexB));
 		monsters.set(indexB, tempMonster);
@@ -153,7 +159,9 @@ public class Lab_6_Program
 						 "\n2. Health" +
 						 "\n3. Exp" +
 						 "\n4. Attack");
+		
 		int input = Input.getIntRange("Sort by? (1-4): ", 1, 4);
+		
 		if(input == 1) return Monster.COMPARE_BY_NAME;
 		if(input == 2) return Monster.COMPARE_BY_HEALTH;
 		if(input == 3) return Monster.COMPARE_BY_EXP;

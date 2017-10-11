@@ -80,7 +80,7 @@ public class Monster
 	public boolean equals(Object other) {
 		return (other instanceof Monster && this == (Monster)other) 
 				|| 
-			   (other instanceof String && this.name.equals((String)other));
+			   (other instanceof String && this.name.equals(other));
 	}
 	
 	@Override
