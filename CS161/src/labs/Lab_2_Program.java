@@ -1,7 +1,7 @@
-package lab_2_Package;
+package labs;
 
-import utils.Input;
-
+import units.monster.Monster;
+import utils.io.Input;
 /**
  * <h1>Lab 2 : Objects - Main Class File</h1>
  * This Program makes use of Monster Class Object.
@@ -20,7 +20,7 @@ public class Lab_2_Program
 	 */
 	public static void main(String[] args) 
 	{
-		Monster monster = new Monster();
+		Monster monster = new Monster("Henry", 100.4f, 50, 25);
 
 		changeMonsterInfo(monster);
 
@@ -37,7 +37,7 @@ public class Lab_2_Program
 			{
 				case '1': changeMonsterInfo(monster);
 					break;
-				case '2': monster.dealDamage(Input.getFloat("Deal damage to monster: "));
+				case '2': monster.takeDamage(Input.getFloat("Deal damage to monster: "));
 					break;
 				case '3': monster.print();
 					break;
