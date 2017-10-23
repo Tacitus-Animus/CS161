@@ -8,7 +8,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Optional;
-import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 import utils.search.*;
@@ -30,7 +29,6 @@ public class Monsters
 	private ArrayList<Monster> monsters;
 	
 	/**
-	 * 
 	 * @param fileName - The name of the file to load Monster data from.
 	 */
 	public Monsters(String fileName)
@@ -47,11 +45,7 @@ public class Monsters
 	 */
 	public void changeMonsterInfo(String name, String newName, float health, int attack, int exp) 
 	{			
-		BiFunction<String, Monster, Integer> searchStrategy = MonsterSearch.BY_NAME.get();
-		
-		Optional<Monster> searchedMonster = new LinearSearch<Monster>().search(monsters, searchStrategy, name);
-			
-		searchedMonster.ifPresent(foundMonster ->
+		search(name).ifPresent(foundMonster ->
 		{
 			foundMonster.print();
 			foundMonster.setName(name);
@@ -66,12 +60,8 @@ public class Monsters
 	 * @param damage - The damage inflicted to monster if found.
 	 */
 	public void attackMonster(String name, float damage) 
-	{
-		BiFunction<String, Monster, Integer> searchStrategy = MonsterSearch.BY_HEALTH.get();
-		
-		Optional<Monster> searchedMonster = new LinearSearch<Monster>().search(monsters, searchStrategy, name);
-			
-		searchedMonster.ifPresent(foundMonster -> 
+	{					
+		search(name).ifPresent(foundMonster -> 
 		{
 			foundMonster.print();
 			foundMonster.takeDamage(damage);
@@ -82,11 +72,8 @@ public class Monsters
 	 * @param name - Name of the monster to search for and display if found.
 	 */
 	public void displayMonsterInfo(String name) 
-	{		
-		BiFunction<String, Monster, Integer> searchStrategy = (search, monster) -> search.compareToIgnoreCase(monster.getName());
-		
-		new LinearSearch<Monster>().search(monsters, searchStrategy, name)
-			.ifPresent(Monster::print);
+	{				
+		search(name).ifPresent(Monster::print);
 	}
 	
 	/**
@@ -140,7 +127,7 @@ public class Monsters
 	
 	/**
 	 * 
-	 * @param printStrategy - Function used to map specific monster attribute to a string value.
+	 * @param printStrategy - Function used to print out monsters by specific attribute.
 	 */
 	public void printList(MonsterPrint printStrategy) 
 	{		
@@ -160,6 +147,11 @@ public class Monsters
 		return searchType.search(monsters, searchStrategy.get(), searchCriteria);
 	}
 
+	public Optional<Monster> search(String searchCriteria) 
+	{
+		return new LinearSearch<Monster>().search(monsters, MonsterSearch.BY_NAME.get(), searchCriteria);
+	}
+	
 	/**
 	 * 
 	 * @param sorter - The type of sort used to sort an Arraylist of monsters.
@@ -170,4 +162,5 @@ public class Monsters
 		sorter.sort(monsters, sortStrategy.get());
 		System.out.println("Sorted.");
 	}
+
 }

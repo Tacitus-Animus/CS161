@@ -24,9 +24,6 @@ public class Monster extends LivingBeing
 		this.name = name;
 	}
 	
-	/*
-	 * Basic getters and setters
-	 */
 	public String getName() {
 		return name;
 	}
@@ -36,21 +33,15 @@ public class Monster extends LivingBeing
 	}
 	
 	@Override
-	public boolean equals(Object other) {
-		return (other instanceof Monster && this == (Monster)other) 
-				|| 
-			   (other instanceof String && name.equals((String)other));
-	}
-	
-	@Override
 	public String toString()
 	{		
-		return "Monster: " + getStatus() +
+		return simpleName + " " + getStatus() +
 			 "\nName: " + name +
      		 "\nHealth: " + health +
 			 "\nAttack: " + attack +
-			 "\nEXP: " + eXP;
+			 "\nEXP: " + exp;
 	}
+	
 	/**
 	 * This method returns true if this Monster was able to take damage, 
 	 * <p>returns false if monster is dead or damage is less than one.
@@ -82,7 +73,7 @@ public class Monster extends LivingBeing
 	
 	/**
 	 * 
-	 * @param regex - The String used to split applied Sting by.
+	 * @param regex - The String used to split applied String by.
 	 * @return Monster Object with parsed monster attributes from applied string.
 	 */
 	public static Function<String, Monster> stringToMonster(String regex) 
@@ -93,14 +84,9 @@ public class Monster extends LivingBeing
 			String name = parsed[0];
 			float health = Float.parseFloat(parsed[1]);
 			int attack = Integer.parseInt(parsed[2]);
-			int exp = (int)((2*attack) + (health/5));
+			int exp = (int)((2*attack) + (health/5));					//For Balance Sake.
 			return new Monster(name, health, attack, exp);
 		};
-	}
-	
-	@Override
-	public void attack(LivingBeing object) {
-		object.takeDamage(super.attack);
 	}
 }
 

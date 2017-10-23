@@ -2,14 +2,16 @@ package units;
 
 public abstract class LivingBeing
 {
-	protected float health;
+	public final String simpleName = this.getClass().getSimpleName();
+	
+	protected float maxHealth, health;
 	protected int attack;
-	protected int eXP;
+	protected int exp;
 	
 	protected LivingBeing(float health, int attack, int eXP) {
-		this.health = health;
+		this.maxHealth = this.health = health;
 		this.attack = attack;
-		this.eXP = eXP;
+		this.exp = eXP;
 	}
 	
 	public float getHealth() {
@@ -19,6 +21,11 @@ public abstract class LivingBeing
 	public void setHealth(float health) {
 		this.health = health;
 		if(this.health < 0.0f) this.health = 0.0f;
+	}
+	
+	public void heal(float heals) {
+		if(heals > 0) health += heals;
+		if(health > maxHealth) health = maxHealth;
 	}
 
 	public int getAttack() {
@@ -31,36 +38,35 @@ public abstract class LivingBeing
 	}
 	
 	public int getEXP() {
-		return eXP;
+		return exp;
 	}
 
 	public void setEXP(int eXP) {
-		this.eXP = eXP;
+		this.exp = eXP;
 	}
 	
-	/**
-	 * @return true if monster's health is <= 0.
-	 */
 	public boolean isDead() 
 	{
 		return health <= 0.0f;
 	}
 	
-	/**
-	 * @return [DEAD] or [ALIVE]
-	 */
 	public String getStatus() {
 		return isDead() ? "[DEAD]" : "[ALIVE]";
 	}
 	
-	/**
-	 * Prints out monster description.
-	 */
+	
 	public void print() {
 		System.out.println(this);
 	}
 	
-	public abstract void attack(LivingBeing object);
+	public void attack(LivingBeing object) {
+		if(isDead()) 
+		{
+			System.out.println(this.getClass().getSimpleName() + " is Dead; Can't attack.");
+		}else {
+			object.takeDamage(attack);
+		}
+	}
 	
 	public abstract boolean takeDamage(float damage);
 	
