@@ -15,7 +15,7 @@ public class Potion extends Item{
 	}
 
 	@Override
-	public boolean use(Fighter fighter) {
+	public boolean useby(Fighter fighter) {
 		if(fighter.hasFullHealth()) {
 			System.out.println(fighter.simpleName + " is at full health.");
 			return false;
@@ -24,7 +24,7 @@ public class Potion extends Item{
 			uses--;
 			fighter.heal(heals);
 			
-			if(uses <= 0) fighter.removeItem(this);
+			if(uses <= 0) fighter.getBag().removeItem(this);
 			
 			return true;
 		}

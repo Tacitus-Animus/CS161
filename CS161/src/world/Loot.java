@@ -17,7 +17,7 @@ public class Loot extends Location {
 	@Override
 	public void setOnLocation(Fighter player)
 	{
-		if(item.isPresent() && player.pickupItem(item)) 
+		if(item.isPresent() && player.pickupItem(item.get())) 
 		{
 			super.setSymbol(' ');
 			item = Optional.empty();

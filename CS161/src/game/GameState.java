@@ -1,5 +1,6 @@
 package game;
 
+import items.Bag;
 import units.Fighter;
 import utils.io.Input;
 import world.Location;
@@ -9,7 +10,7 @@ import world.Spawn;
 public class GameState {
 
 	private Fighter player;
-	
+		
 	public GameState(Fighter player) {
 		this.player = player;
 	}
@@ -49,19 +50,22 @@ public class GameState {
 	}
 
 	private void openInventory() {
-		if(player.hasEmptyInventory()) System.out.println("Inventory is empty.");
+		
+		Bag bag = player.getBag();
+		
+		if(bag.hasEmptyInventory()) System.out.println("Inventory is empty.");
 		else while(true)
 		{
-			player.printInventory();
-			System.out.println(player.getInventorySize() + 1 + ". Close Inventory");
+			bag.printInventory();
+			System.out.println(bag.getInventorySize() + 1 + ". Close Inventory");
 			
-			int item = Input.getIntRange("Choose Item: ", 1, player.getInventorySize() + 1);
+			int item = Input.getIntRange("Choose Item: ", 1, bag.getInventorySize() + 1);
 			
-			if(item - 1 == player.getInventorySize()) 
+			if(item - 1 == bag.getInventorySize()) 
 			{
 				System.out.println("Inventory Closed."); 
 				break;
-			} else player.useItem(item - 1);
+			} else bag.useItem(player, item - 1);
 		}
 	}
 

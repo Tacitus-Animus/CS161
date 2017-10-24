@@ -1,5 +1,7 @@
 package items;
 
+import units.Fighter;
+
 public interface IInventory {
 	
 	public int getMaxSize();
@@ -11,11 +13,9 @@ public interface IInventory {
 	public boolean hasFullInventory();
 	
 	public void printInventory();
-	
-	public void useItem(int index);
-		
+			
 	public void addItem(Item item);
 
-	void removeItem(Item index);
-	
+	void removeItem(Item item);
+
 }

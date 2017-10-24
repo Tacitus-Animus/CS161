@@ -1,12 +1,8 @@
 package units;
 
-import java.util.ArrayList;
-import java.util.Optional;
 import java.util.Random;
-import java.util.stream.IntStream;
-
 import game.Battle;
-import items.IInventory;
+import items.Bag;
 import items.Item;
 import world.Location;
 import world.Map;
@@ -20,11 +16,11 @@ import world.Map;
  * @version CS161
  * @since 18-OCT-2017 
  */
-public class Fighter extends LivingBeing implements IInventory
+public class Fighter extends LivingBeing
 {	
-	protected ArrayList<Item> inventory = new ArrayList<>();
+	private Bag bag = new Bag(10);
 	
-	protected Map map;
+	private Map map;
 	
 	protected int locationX;
 	
@@ -115,8 +111,10 @@ public class Fighter extends LivingBeing implements IInventory
 		return true;
 	}
 
-	public Map getMap() {
-		return map;
+	
+	
+	public void printMap() {
+		map.print();
 	}
 
 	public void enterMap(Map map, int x, int y) {
@@ -156,65 +154,42 @@ public class Fighter extends LivingBeing implements IInventory
 		return health == maxHealth;
 	}
 
-	@Override
-	public boolean hasEmptyInventory() {
-		return inventory.isEmpty();
+	public Bag getBag() {
+		return bag;
 	}
 
-	@Override
-	public int getInventorySize() {
-		return inventory.size();
+	public void setBag(Bag bag) {
+		this.bag = bag;
 	}
 
-	@Override
-	public void printInventory() 
-	{
-		if(!hasEmptyInventory()) 
+	public Map getMap() {
+		return map;
+	}
+
+	public void setMap(Map map) {
+		this.map = map;
+	}
+
+	public boolean pickupItem(Item item) {
+		if(bag.hasFullInventory())
 		{
-			IntStream.range(0, getInventorySize()).forEach(index -> 
-			{
-				System.out.printf("%d. %s\n", index + 1, inventory.get(index).printItem());
-			});
-		}
-	}
-
-	@Override
-	public void useItem(int index) {
-		 inventory.get(index).use(this);
-	}
-
-	@Override
-	public void removeItem(Item index) {
-		inventory.remove(index);
-	}
-
-	@Override
-	public void addItem(Item item) {
-		if(!hasFullInventory()) inventory.add(item);
-	}
-
-	@Override
-	public int getMaxSize() {
-		return 10;
-	}
-
-	@Override
-	public boolean hasFullInventory() {
-		return getInventorySize() >= getMaxSize();
-	}
-
-	public boolean pickupItem(Optional<Item> item) 
-	{
-		if(!hasFullInventory())
-		{
-			System.out.println("Picked up " + item.get().getItemName());
-			addItem(item.get());
-			return true;
-		}else {
-			System.out.println("Couldn't pick up " + item.get().getItemName());
+			System.out.println("Couldn't pick up " + item.getItemName());
 			return false;
+		}else {
+			System.out.println("Picked up " + item.getItemName());
+			bag.addItem(item);
+			return true;
 		}
 	}
-
+	
+	public void useItem(int index) 
+	{
+		if(bag[index] == null) 
+		{
+			System.out.println("Can't use.");
+		}else {
+			bag[index].useby(player);
+		}
+	}
 	
 }

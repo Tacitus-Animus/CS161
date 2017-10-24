@@ -31,6 +31,8 @@ public abstract class Item {
 	
 	public abstract String printItem();
 
-	public abstract boolean use(Fighter fighter);
+	public abstract boolean useby(Fighter fighter);
+	
+	
 	
 }
