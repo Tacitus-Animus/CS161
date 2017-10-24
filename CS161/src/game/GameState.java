@@ -65,8 +65,10 @@ public class GameState {
 		}
 	}
 
-	private void proximityCheck() {
-
+	private void proximityCheck() 
+	{
+		boolean found = false;
+		
 		Map map = player.getMap();
 
 		int centerX = player.getX();
@@ -82,17 +84,18 @@ public class GameState {
 				
 				if (location instanceof Spawn && ((Spawn)location).hasMonster()) 
 				{
+					found = true;
 					Spawn spawn = (Spawn)location;
 					System.out.println("Found Monster Spawn");
+					
 					player.accept(new Battle(((Spawn)location).getMonster()));
+					
 					spawn.setOnLocation(player);
 					break Outer;
 				}			
 			}
 		}
-		
-		
-		
+		if(!found) System.out.println("No monster found.");
 	}
 	
 }

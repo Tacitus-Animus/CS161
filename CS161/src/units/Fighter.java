@@ -66,7 +66,7 @@ public class Fighter extends LivingBeing implements IInventory
 	protected void gainEXP(int eXP) 
 	{
 		this.exp += eXP;
-		if(this.exp > maxEXP) levelUp();
+		if(this.exp >= maxEXP) levelUp();
 	}
 	
 	protected void levelUp() 

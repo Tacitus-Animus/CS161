@@ -16,7 +16,7 @@ public enum MonsterSearch
 	BY_NAME((search, monster) -> search.compareToIgnoreCase(monster.getName())),
 	BY_HEALTH((search, monster) -> Float.valueOf(search).compareTo(monster.getHealth())),
 	BY_ATTACK((search, monster) -> Integer.valueOf(search).compareTo(monster.getEXP())),
-	BY_EXP((search, monster) -> Integer.valueOf(search).compareTo(monster.getAttack()));
+	BY_EXP((search, monster) -> Integer.valueOf(search).compareTo(monster.getEXP()));
 	
 	private BiFunction<String, Monster, Integer> searchStrategy;
 	

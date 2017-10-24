@@ -1,10 +1,9 @@
-package testing_package;
+package world;
 
 import java.util.Optional;
 
 import items.Item;
 import units.Fighter;
-import world.Location;
 
 public class Loot extends Location {
 
