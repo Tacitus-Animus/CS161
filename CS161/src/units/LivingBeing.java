@@ -2,7 +2,7 @@ package units;
 
 public abstract class LivingBeing
 {
-	public final String simpleName = this.getClass().getSimpleName();
+	public final String SIMPLENAME = this.getClass().getSimpleName();
 	
 	protected float maxHealth, health;
 	protected int attack;
@@ -59,10 +59,11 @@ public abstract class LivingBeing
 		System.out.println(this);
 	}
 	
-	public void attack(LivingBeing object) {
+	public void attack(LivingBeing object)
+	{
 		if(isDead()) 
 		{
-			System.out.println(this.getClass().getSimpleName() + " is Dead; Can't attack.");
+			System.out.println(this.SIMPLENAME + " is Dead; Can't attack.");
 		}else {
 			object.takeDamage(attack);
 		}

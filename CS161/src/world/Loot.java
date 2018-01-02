@@ -10,7 +10,7 @@ public class Loot extends Location {
 	Optional<Item> item;
 	
 	public Loot(Item item) {
-		super.setSymbol('L');
+		super.setSymbol(item.getSymbol());
 		this.item = Optional.of(item);
 	}
 

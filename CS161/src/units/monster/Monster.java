@@ -15,7 +15,7 @@ import units.LivingBeing;
  * @version CS161
  * @since 4-OCT-2017
  */
-public class Monster extends LivingBeing
+public class Monster extends LivingBeing implements Cloneable
 {
 	private String name;
 		
@@ -35,9 +35,9 @@ public class Monster extends LivingBeing
 	@Override
 	public String toString()
 	{		
-		return simpleName + " " + getStatus() +
+		return SIMPLENAME + " " + getStatus() +
 			 "\nName: " + name +
-     		 "\nHealth: " + health +
+     		 "\nHealth: " + health + "/" + maxHealth +
 			 "\nAttack: " + attack +
 			 "\nEXP: " + exp;
 	}
@@ -50,17 +50,17 @@ public class Monster extends LivingBeing
 	@Override
 	public boolean takeDamage(float damage) 
 	{
-		if(isDead()) 
-		{
-			System.out.println(name + " is already dead.");
+		if(isDead()) {
+			System.out.println(name + " is already dead; Can't take damage.");
 			return false;
 		}
-		if(damage <= 0)
-		{
+		if(damage <= 0) {
 			System.out.println("No damage inflicted to " + name + ".");
 			return false;
 		}
+		
 		System.out.println("Damage dealt to " + name + ".");
+		
 		health -= damage;
 		
 		if(isDead())
@@ -84,9 +84,17 @@ public class Monster extends LivingBeing
 			String name = parsed[0];
 			float health = Float.parseFloat(parsed[1]);
 			int attack = Integer.parseInt(parsed[2]);
-			int exp = (int)((2*attack) + (health/5));					//For Balance Sake.
+			int exp = (int)((2*attack) + (health/5));	  //For Balance Sake.
 			return new Monster(name, health, attack, exp);
 		};
 	}
+	
+	
+	@Override 
+	public Object clone()
+	{
+		return new Monster(name, health, attack, exp);
+	}
+	
 }
 

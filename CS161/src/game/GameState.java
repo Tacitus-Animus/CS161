@@ -1,5 +1,9 @@
 package game;
 
+import java.util.Optional;
+
+import exceptions.DeadFighterIsDeadException;
+import items.Armor;
 import items.Bag;
 import units.Fighter;
 import utils.io.Input;
@@ -7,16 +11,25 @@ import world.Location;
 import world.Map;
 import world.Spawn;
 
+/**
+ * <h1>Lab 11 : GameState Class</h1>
+ * This gets user input and controls game play.
+ * @author Alex Paul
+ * @version CS161
+ * @since 01-DEC-2017 
+ */
 public class GameState {
 
+	final Battle battle = new Battle();
+	
 	private Fighter player;
 		
 	public GameState(Fighter player) {
 		this.player = player;
 	}
 
-	public void getUserInput() 
-	{
+	public void getUserInput() throws DeadFighterIsDeadException 
+	{		
 		System.out.println("1. Move up\n" + 
 							"2. Move Down\n" + 
 							"3. Move Right\n" + 
@@ -24,27 +37,28 @@ public class GameState {
 							"5. Atack Monster\n" +
 							"6. Open Inventy");
 
-		int input = Input.getIntRange("Enter Player Options: ", 1, 6);
+		String input = Input.getString("Enter Player Options: ");
 
-		switch (input) {
-		case 1:
+		switch (input.toLowerCase()) {
+		case "1":
 			player.move(0, -1);
 			break;
-		case 2:
+		case "2":
 			player.move(0, 1);
 			break;
-		case 3:
+		case "3":
 			player.move(1, 0);
 			break;
-		case 4:
+		case "4":
 			player.move(-1, 0);
 			break;
-		case 5:
+		case "5":
 			proximityCheck();
 			break;
-		case 6:
+		case "6":
 			openInventory();
-			
+		case "grace": System.out.println("Grace = poopy face and sticky mattermeron!");
+		default: 
 		}
 
 	}
@@ -56,20 +70,29 @@ public class GameState {
 		if(bag.hasEmptyInventory()) System.out.println("Inventory is empty.");
 		else while(true)
 		{
-			bag.printInventory();
+			player.printInventory();
 			System.out.println(bag.getInventorySize() + 1 + ". Close Inventory");
 			
-			int item = Input.getIntRange("Choose Item: ", 1, bag.getInventorySize() + 1);
+			int index = Input.getIntRange("Choose Item: ", 1, bag.getInventorySize() + 1);
 			
-			if(item - 1 == bag.getInventorySize()) 
+			if(index - 1 == bag.getInventorySize()) 
 			{
 				System.out.println("Inventory Closed."); 
 				break;
-			} else bag.useItem(player, item - 1);
+			}else if(bag.getItem(index - 1) instanceof Armor)
+			{
+				player.setArmor(Optional.of((Armor)bag.getItem(index - 1)));
+			}else {					
+				player.useItem(index - 1);
+			}
 		}
 	}
 
-	private void proximityCheck() 
+	/**
+	 * Checks for Monsters around player in a room and opens battle menu if found.
+	 * @throws DeadFighterIsDeadException
+	 */
+	private void proximityCheck() throws DeadFighterIsDeadException 
 	{
 		boolean found = false;
 		
@@ -92,7 +115,8 @@ public class GameState {
 					Spawn spawn = (Spawn)location;
 					System.out.println("Found Monster Spawn");
 					
-					player.accept(new Battle(((Spawn)location).getMonster()));
+					battle.setMonster(((Spawn)location).getMonster());
+					player.accept(battle);
 					
 					spawn.setOnLocation(player);
 					break Outer;
@@ -101,5 +125,17 @@ public class GameState {
 		}
 		if(!found) System.out.println("No monster found.");
 	}
-	
+
+	public void run() 
+	{
+		while(!player.isDead()) 
+	 	{
+ 		   player.print();
+ 		   player.printMap();
+
+ 		   try {
+			getUserInput();
+			} catch (DeadFighterIsDeadException e) {}
+	    }		
+	}
 }

@@ -1,5 +1,8 @@
 package labs;
 
+import java.io.FileNotFoundException;
+
+import exceptions.NotEnoughMonsterException;
 import units.monster.Monsters;
 /**
  * <h1>Lab 3 : File IO, Arrays - Main Class File</h1>
@@ -17,7 +20,12 @@ public class Lab_3_Program
 {
 	public static void main(String[] args) 
 	{
-		Monsters monsters = new Monsters("MONSTERLIST.txt");
+		Monsters monsters = null;
+		try {
+			monsters = new Monsters("MONSTERLIST.txt");
+		} catch (FileNotFoundException | NotEnoughMonsterException e) {
+			//Nothing.
+		}
 		
 		monsters.changeMonsterInfo("Slime", "Avatar", 1000.5f, 500, 7777);
 

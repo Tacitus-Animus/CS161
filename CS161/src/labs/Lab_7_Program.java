@@ -1,4 +1,5 @@
 package labs;
+import exceptions.DeadFighterIsDeadException;
 import units.Fighter;
 import units.monster.Monster;
 
@@ -15,7 +16,7 @@ import units.monster.Monster;
  */
 public class Lab_7_Program 
 {	
-	public static void main(String[] args) 
+	public static void main(String[] args) throws DeadFighterIsDeadException 
 	{
 		Monster monster = new Monster("Henry", 100.0f, 10, 10);
 		//uses default values.

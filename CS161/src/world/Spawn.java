@@ -10,7 +10,7 @@ public class Spawn extends Location {
 	private Optional<Monster> monster;
 	
 	public Spawn(Monster monster) {
-		this.monster = Optional.of(monster);
+		this.monster = Optional.ofNullable(monster);
 		super.setSymbol('M');
 		super.setSolid(true);
 	}

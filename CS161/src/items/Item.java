@@ -33,6 +33,4 @@ public abstract class Item {
 
 	public abstract boolean useby(Fighter fighter);
 	
-	
-	
 }

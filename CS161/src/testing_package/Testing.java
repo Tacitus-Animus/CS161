@@ -1,39 +1,45 @@
 package testing_package;
 
-import game.GameState;
-import items.Potion;
-import units.Brawler;
-import units.monster.Monster;
-import world.*;
+import java.io.FileNotFoundException;
+import java.util.Iterator;
 
+import exceptions.NotEnoughMonsterException;
+import game.GameState;
+import units.Brawler;
+import units.Fighter;
+import units.monster.Monster;
+import units.monster.MonsterSort;
+import units.monster.Monsters;
+import utils.sort.Quicksort;
+import world.RoomTree;
+
+//testing binary nodes...
 public class Testing
 {
-   public static void main(String[] args)
+   public static void main(String[] args) throws FileNotFoundException, NotEnoughMonsterException 
    {	 	  
-	   Map startingPoint = new Map(5,5); 
-	   	
-	   startingPoint.setLocation(new Spawn(new Monster("Henry", 30, 10, 10)), 2, 2);
+	   //load monsters and sort...
+	   Monsters monsters = new Monsters("MONSTERLIST.txt");
+	   			monsters.sort(new Quicksort<>(), MonsterSort.BY_ATTACK);
 	   
-	   Map end = new Map(10, 5);
+	   //create iterator...
+	   Iterator<Monster> iterator = monsters.getIterator();
 	   
-	   end.setLocation(new Loot(new Potion("Potion", 10, 3)), 7, 2);
+	   //Create and set binary tree...
+	   RoomTree root = new RoomTree(iterator.next());
+	   			root.setLeft(new RoomTree(iterator.next()));
+	   			root.setRight(new RoomTree(iterator.next()));
+	   			root.getLeft().setLeft(new RoomTree(iterator.next()));
 	   
-	   startingPoint.setLocation(new Portal(end), 2, 4);
- 	   
- 	   Brawler player = new Brawler();
- 	   
- 	   player.enterMap(startingPoint, 1, 1);
- 	   
- 	   GameState gameState = new GameState(player);
- 	   
- 	   while(!player.isDead()) 
- 	   {
- 		   player.print();
- 		   
- 		   player.printMap();
-
- 		   gameState.getUserInput();
- 	   }
-	 	   
+	   
+	   //create player and enter GUI representation of binary tree...
+	   Fighter player = new Brawler();
+	   		   player.enterMap(root, 2, 1);
+	   
+	   //create game and start...
+	   GameState gameState = new GameState(player);
+	   
+	   gameState.run();
+	   
    }
 }     

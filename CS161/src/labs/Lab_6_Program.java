@@ -1,10 +1,9 @@
 package labs;
-import java.util.Comparator;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
-import java.util.function.BiFunction;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
+import exceptions.NotEnoughMonsterException;
 import units.monster.*;
 import utils.io.Input;
 import utils.search.*;
@@ -23,9 +22,14 @@ import utils.sort.*;
  */
 public class Lab_6_Program 
 {
-	public static void main(String[] args) 
+	public static void main(String[] args) throws NotEnoughMonsterException 
 	{					
-		Monsters monsters = new Monsters("MONSTERLIST.txt");
+		Monsters monsters = null;
+		try {
+			monsters = new Monsters("MONSTERLIST.txt");
+		} catch (FileNotFoundException e) {
+			//Nothing
+		}
 
 		HashMap<Integer, Consumer<Monsters>> options = buildOptions();
 				
@@ -65,7 +69,13 @@ public class Lab_6_Program
 													   getSearchStrategy(), 
 													   Input.getString("Enter Search Criteria: ")));
 			
-			options.put(5, monsters -> monsters.loadFromFile(Input.getString("Enter file to load monsters from: ")));
+			options.put(5, monsters -> {
+				try {
+					monsters.loadFromFile(Input.getString("Enter file to load monsters from: "));
+				} catch (NotEnoughMonsterException | FileNotFoundException e) {
+					//nothing
+				}
+			});
 			options.put(6, monsters -> monsters.saveToFile(Input.getString("Enter file to save monsters to: ")));
 			options.put(7, monsters -> monsters.sort(getSortType(), getSortStrategy()));
 			

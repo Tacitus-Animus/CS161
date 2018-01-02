@@ -1,7 +1,11 @@
 package units;
 
+import java.util.Optional;
 import java.util.Random;
+
+import exceptions.DeadFighterIsDeadException;
 import game.Battle;
+import items.Armor;
 import items.Bag;
 import items.Item;
 import world.Location;
@@ -18,7 +22,9 @@ import world.Map;
  */
 public class Fighter extends LivingBeing
 {	
-	private Bag bag = new Bag(10);
+	private Optional<Armor> armor = Optional.empty();
+	
+	private Bag bag = new Bag(this, 10);
 	
 	private Map map;
 	
@@ -28,19 +34,22 @@ public class Fighter extends LivingBeing
 	
 	protected Random randomGenerator = new Random();
 	
-	protected int level = 1;
+	protected int level;
 	
-	protected int maxEXP = 40 + (level * 10);
+	protected int maxEXP;
 	
-	protected int defense = 1;
+	protected int defense;
 	
 	public Fighter() {
 		super(100.0f, 5, 0);
+		level = 1;
+		maxEXP = 40 + (level * 10);
+		defense = 1;
 	}
 
 	@Override
 	public String toString() {
-		 return simpleName + " " + getStatus() +
+		 return SIMPLENAME + " " + getStatus() +
 	     		 "\nHealth: " + health + "/" + maxHealth +
 				 "\nAttack: " + attack +
 				 "\nEXP: " + exp + "/" + maxEXP +
@@ -49,7 +58,7 @@ public class Fighter extends LivingBeing
 	}
 	
 	@Override
-	public void attack(LivingBeing object) 
+	public void attack(LivingBeing object)
 	{
 		super.attack(object);
 		this.gainEXP(object.exp);
@@ -68,9 +77,9 @@ public class Fighter extends LivingBeing
 	protected void levelUp() 
 	{
 		System.out.println("Level Up!");
+		level++;
 		exp = 0;
 		maxEXP = 40 + (level * 10);
-		level++;
 		maxHealth += (float) randomGenerator.nextInt(6) + 5;
 		attack += randomGenerator.nextInt(4) + 4;
 		defense += randomGenerator.nextInt(4) + 1;
@@ -81,37 +90,35 @@ public class Fighter extends LivingBeing
 	 * This method returns true if this Fighter was able to take damage, 
 	 * <p>returns false if monster is dead or damage less than one.
 	 * @param damage value to be decreased from monster's health.
+	 * @throws DeadFighterIsDeadException 
 	 */
 
 	@Override
-	public boolean takeDamage(float damage) 
-	{
-		float resultantDamage = damage - defense;
-		
-		if(isDead()) 
-		{
-			System.out.println(simpleName + " is already dead.");
+	public boolean takeDamage(float damage)
+	{		
+		if(isDead()) {
+			System.out.println(SIMPLENAME + " can't take damage; Already dead.");
 			return false;
 		}
 		
-		if(resultantDamage <= 0)
-		{
-			System.out.println("No damage inflicted to fighter");
+		float resultantDamage = damage - defense - (armor.isPresent() ? armor.get().getDefence() : 0);
+			armor.ifPresent(armor -> armor.useby(this));
+		if(resultantDamage <= 0) {
+			System.out.println("No damage inflicted to " + SIMPLENAME);
 			return false;
-		}else{
-			System.out.println("Damage dealt to " + simpleName);
-			health -= resultantDamage;
 		}
+			
+		System.out.println("Damage dealt to " + SIMPLENAME);
+		
+		health -= resultantDamage;
 		
 		if(isDead())
 		{
-			System.out.println(simpleName + " was killed.");
+			System.out.println(SIMPLENAME + " was killed.");
 			health = 0.0f;
 		}
 		return true;
 	}
-
-	
 	
 	public void printMap() {
 		map.print();
@@ -146,7 +153,12 @@ public class Fighter extends LivingBeing
 		}
 	}
 
-	public void accept(Battle battle) {
+	/**
+	 * 
+	 * @param battle - The battle that visits this Fighter Type and handles fight behavior.
+	 * @throws DeadFighterIsDeadException
+	 */
+	public void accept(Battle battle) throws DeadFighterIsDeadException {
 		battle.fight(this);
 	}
 	
@@ -182,14 +194,20 @@ public class Fighter extends LivingBeing
 		}
 	}
 	
-	public void useItem(int index) 
-	{
-		if(bag[index] == null) 
-		{
-			System.out.println("Can't use.");
-		}else {
-			bag[index].useby(player);
-		}
+	public void useItem(int index) {
+		bag.getItem(index).useby(this);
+	}
+	
+	public void printInventory() {
+		bag.printInventory();
+	}
+
+	public Optional<Armor> getArmor() {
+		return armor;
+	}
+
+	public void setArmor(Optional<Armor> armor) {
+		this.armor = armor;
 	}
 	
 }

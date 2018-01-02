@@ -2,14 +2,17 @@ package units.monster;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import exceptions.NotEnoughMonsterException;
 import utils.search.*;
 import utils.sort.*;
 
@@ -28,12 +31,15 @@ public class Monsters
 {
 	private ArrayList<Monster> monsters;
 	
+	
 	/**
 	 * @param fileName - The name of the file to load Monster data from.
+	 * @throws NotEnoughMonsterException 
+	 * @throws FileNotFoundException 
 	 */
-	public Monsters(String fileName)
+	public Monsters(String fileName) throws NotEnoughMonsterException, FileNotFoundException
 	{
-		loadFromFile(fileName);
+			loadFromFile(fileName);
 	}
 
 	/**
@@ -79,9 +85,10 @@ public class Monsters
 	/**
 	 * @param fileName - Name of the file to load Monster data from.
 	 * @return ArrayList<Monster> - The collection of monster objects loaded from the file.
+	 * @throws FileNotFoundException 
 	 * @throws IOException - Thrown if there is a file loading error.
 	 */
-	public void loadFromFile(String fileName)
+	public void loadFromFile(String fileName) throws NotEnoughMonsterException, FileNotFoundException
 	{	
 		try {
 			monsters = (ArrayList<Monster>) Files.readAllLines(Paths.get(fileName))
@@ -89,9 +96,11 @@ public class Monsters
 					   .map(Monster.stringToMonster("/"))
 					   .collect(Collectors.toList());
 		} catch (IOException e) {
-			System.err.println("Load File ERROR!!!");
+			throw new FileNotFoundException();
 		}
-		System.out.println("Monsters Loaded.");
+		
+		if(monsters != null && monsters.size() < 10) throw new NotEnoughMonsterException();
+		else System.out.println("Monsters Loaded.");
 	}
 	
 	/**
@@ -147,6 +156,9 @@ public class Monsters
 		return searchType.search(monsters, searchStrategy.get(), searchCriteria);
 	}
 
+	/**
+	 * @param searchCriteria - The user input used to linear search for monster by name with matching attribute.
+	 */
 	public Optional<Monster> search(String searchCriteria) 
 	{
 		return new LinearSearch<Monster>().search(monsters, MonsterSearch.BY_NAME.get(), searchCriteria);
@@ -161,6 +173,11 @@ public class Monsters
 	{
 		sorter.sort(monsters, sortStrategy.get());
 		System.out.println("Sorted.");
+	}
+
+	public Iterator<Monster> getIterator() 
+	{
+		return monsters.iterator();
 	}
 
 }

@@ -1,36 +1,42 @@
 package items;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import units.Fighter;
 
 public class Bag implements IInventory {
 
-	private final Item[] bag;
+	protected final Fighter PLAYER;
+	protected final ArrayList<Item> BAG;
+	protected final int MAX_SIZE;
 	
-	public Bag(int size) {
-		bag = new Item[size];
+	public Bag(Fighter PLAYER, int size) {
+		this.PLAYER = PLAYER;
+		BAG = new ArrayList<>();
+		MAX_SIZE = size;
 	}
 	
 	@Override
 	public int getMaxSize() {
-		return bag.length;
+		return MAX_SIZE;
 	}
 
 	@Override
 	public boolean hasEmptyInventory() {
-		// TODO Auto-generated method stub
-		return Arrays.asList(bag).stream().allMatch(null);
+		return BAG.isEmpty();
 	}
 
 	@Override
 	public int getInventorySize() {
-		return Arrays.asList(bag).stream()
-				.reduce(0, (quantity, item) -> item == null ? 0 : 1, (initial, result) -> initial + result);
+		return BAG.size();
 	}
 
 	@Override
 	public boolean hasFullInventory() {
-		return Arrays.asList(bag).stream().noneMatch(null);
+		return BAG.size() == MAX_SIZE;
 	}
 
 	@Override
@@ -41,7 +47,8 @@ public class Bag implements IInventory {
 		}else {
 			IntStream.range(0, getInventorySize()).forEach(index -> 
 			{
-				System.out.printf("%d. %s\n", index + 1, bag[index] == null ? "Nothing." : bag[index].printItem());
+				String equipt = BAG.get(index) instanceof Armor ? BAG.get(index) == PLAYER.getArmor().orElse(null) ? "[Equipted] ": "[Un-Equipted] " : "";
+				System.out.printf("%d. %s\n", index + 1, equipt + BAG.get(index).printItem());
 			});
 		}
 	}
@@ -51,28 +58,24 @@ public class Bag implements IInventory {
 	{
 		if(hasFullInventory())
 		{
-			Arrays.asList(bag).stream().filter(null).findFirst().map(nullItem -> nullItem = item);
-		}else {
 			System.out.println("Inventory Full.");
+		}else {
+			BAG.add(item);
 		}
 	}
 
 	@Override
-	public void removeItem(Item index) {
-		Arrays.asList(bag).stream().filter(item -> item == index).findFirst().map(item -> item == null);
+	public void removeItem(Item item) {
+		BAG.remove(item);
 	}
-	
-	public boolean pickupItem(Item item) 
-	{
-		if(hasFullInventory())
-		{
-			System.out.println("Couldn't pick up " + item.getItemName());
-			return false;
-		}else {
-			System.out.println("Picked up " + item.getItemName());
-			addItem(item);
-			return true;
-		}
+
+	@Override
+	public Item getItem(int index) {
+		return BAG.get(index);
+	}
+
+	public List<Throw> getThrowables() {
+		return BAG.stream().filter(item -> item instanceof Throw).map(item -> (Throw)item).collect(Collectors.toList());
 	}
 
 }

@@ -40,7 +40,7 @@ public class Map {
 			{
 				if(fighter.getY() == width && fighter.getX() == length)
 				{
-					layout += "P" + " ";
+					layout += "F" + " ";
 				}else {
 				layout += map[width][length].getSymbol() + " ";
 				}

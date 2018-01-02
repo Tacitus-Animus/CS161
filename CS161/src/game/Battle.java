@@ -1,9 +1,23 @@
 package game;
 
+import java.util.ArrayList;
+import java.util.stream.IntStream;
+
+import exceptions.DeadFighterIsDeadException;
+import items.Throw;
 import units.Brawler;
 import units.Fighter;
 import units.monster.Monster;
 import utils.io.Input;
+
+/**
+ * <h1>Battle Class</h1>
+ * This Class Controls Fighting Behavior between Fighter/Brawler vs. Monsters.
+ * This implements the visitor pattern. The fighter accepts this and this handles the battle logic.
+ * @author Alex Paul
+ * @version CS161
+ * @since 6-NOV-2017
+ */
 
 public class Battle {
 	
@@ -11,44 +25,86 @@ public class Battle {
 	
 	public Battle(Monster monster) {
 		this.monster = monster;
-		
 	}
 	
-	public void fight(Fighter player) 
+	public Battle() {}
+
+	/**
+	 * This method loops through a battle between a fighter and monster.
+	 * @param player - Fighter type that has a chance to attack first.
+	 * @throws DeadFighterIsDeadException
+	 */
+	public void fight(Fighter player) throws DeadFighterIsDeadException 
 	{
-		while(!player.isDead() && !monster.isDead())
+		fightLoop(player, false);
+	}
+	/**
+	 * This method loops through a battle between a fighter and monster.
+	 * @param player - Brawler type that has a 100% chance to attack first.
+	 * @throws DeadFighterIsDeadException
+	 */
+	public void fight(Brawler player) throws DeadFighterIsDeadException 
+	{
+		fightLoop(player, true);
+	}
+	
+	/**
+	 * @param player
+	 * @param preEmp 
+	 * @throws DeadFighterIsDeadException
+	 */
+	private void fightLoop(Fighter player, boolean preEmp) throws DeadFighterIsDeadException {
+		while(!monster.isDead())
 		{
-			System.out.println("1. Attack\n" +
-							   "2. Escape");
-			int input = Input.getIntRange("Choose option: ", 1, 2);
+			if(player.isDead()) throw new DeadFighterIsDeadException();
 			
-			if(input == 1) pre_emptive_Strike(player, false);
-			else if(input == 2)
+			int input = getFightOption();
+			
+			if(input == 1) pre_emptive_Strike(player, preEmp);
+			else if(input == 2)  {
+				System.out.println("Run away!"); break;
+			}else throwItem(player);
+		}
+	}
+
+	private void throwItem(Fighter player) 
+	{
+		ArrayList<Throw> throwables = (ArrayList<Throw>) player.getBag().getThrowables();		
+		
+		if(!throwables.isEmpty()) {
+			IntStream.range(0, throwables.size()).forEach(index -> 
+			System.out.println(index + 1 + ": " + throwables.get(index).printItem()));	
+			
+			Throw item = throwables.get(Input.getIntRange("Choose Throwable: ", 1, throwables.size()) - 1);
+			
+			if(monster.takeDamage(item.damage))
 			{
-				System.out.println("Running away");
-				break;
+				player.getBag().removeItem(item);
 			}
 		}
 	}
 
-	public void fight(Brawler player) 
+	private int getFightOption() 
 	{
-		while(!player.isDead() && !monster.isDead())
-		{
-			System.out.println("1. Attack\n" +
-							   "2. Escape");
-			int input = Input.getIntRange("Choose option: ", 1, 2);
-			
-			if(input == 1) pre_emptive_Strike(player, true);
-			else if(input == 2)
-			{
-				System.out.println("Running away");
-				break;
-			}
-		}
+		monster.print();
+		System.out.println("1. Attack" + 
+				         "\n2. Escape" +
+						 "\n3. Throw");
+		return Input.getIntRange("Choose: ", 1, 3);
+	}
+
+	/**
+	 * @param monster - Monster to fight Fighter Type.
+	 */
+	public void setMonster(Monster monster) {
+		this.monster = monster;
 	}
 	
-	private void pre_emptive_Strike(Fighter player, boolean hitsFirst) 
+	/**
+	 * @param player - The fighter that attacks monster and visa versa.
+	 * @param hitsFirst - Determines if fighter attacks first else 50/50 chance.
+	 */
+	private void pre_emptive_Strike(Fighter player, boolean hitsFirst)
 	{
 		if(hitsFirst)
 		{
