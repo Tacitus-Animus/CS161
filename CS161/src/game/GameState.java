@@ -2,7 +2,6 @@ package game;
 
 import java.util.Optional;
 
-import exceptions.DeadFighterIsDeadException;
 import items.Armor;
 import items.Bag;
 import units.Fighter;
@@ -28,7 +27,7 @@ public class GameState {
 		this.player = player;
 	}
 
-	public void getUserInput() throws DeadFighterIsDeadException 
+	public void getUserInput() 
 	{		
 		System.out.println("1. Move up\n" + 
 							"2. Move Down\n" + 
@@ -92,7 +91,7 @@ public class GameState {
 	 * Checks for Monsters around player in a room and opens battle menu if found.
 	 * @throws DeadFighterIsDeadException
 	 */
-	private void proximityCheck() throws DeadFighterIsDeadException 
+	private void proximityCheck() 
 	{
 		boolean found = false;
 		
@@ -133,9 +132,9 @@ public class GameState {
  		   player.print();
  		   player.printMap();
 
- 		   try {
+ 		
 			getUserInput();
-			} catch (DeadFighterIsDeadException e) {}
+			
 	    }		
 	}
 }

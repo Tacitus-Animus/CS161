@@ -12,7 +12,6 @@ import java.util.Iterator;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import exceptions.NotEnoughMonsterException;
 import utils.search.*;
 import utils.sort.*;
 
@@ -37,7 +36,7 @@ public class Monsters
 	 * @throws NotEnoughMonsterException 
 	 * @throws FileNotFoundException 
 	 */
-	public Monsters(String fileName) throws NotEnoughMonsterException, FileNotFoundException
+	public Monsters(String fileName) throws FileNotFoundException
 	{
 			loadFromFile(fileName);
 	}
@@ -88,7 +87,7 @@ public class Monsters
 	 * @throws FileNotFoundException 
 	 * @throws IOException - Thrown if there is a file loading error.
 	 */
-	public void loadFromFile(String fileName) throws NotEnoughMonsterException, FileNotFoundException
+	public void loadFromFile(String fileName) throws FileNotFoundException
 	{	
 		try {
 			monsters = (ArrayList<Monster>) Files.readAllLines(Paths.get(fileName))
@@ -98,9 +97,7 @@ public class Monsters
 		} catch (IOException e) {
 			throw new FileNotFoundException();
 		}
-		
-		if(monsters != null && monsters.size() < 10) throw new NotEnoughMonsterException();
-		else System.out.println("Monsters Loaded.");
+		 System.out.println("Monsters Loaded.");
 	}
 	
 	/**

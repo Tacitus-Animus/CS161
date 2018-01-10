@@ -3,7 +3,6 @@ import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.function.Consumer;
 
-import exceptions.NotEnoughMonsterException;
 import units.monster.*;
 import utils.io.Input;
 import utils.search.*;
@@ -22,14 +21,10 @@ import utils.sort.*;
  */
 public class Lab_6_Program 
 {
-	public static void main(String[] args) throws NotEnoughMonsterException 
+	public static void main(String[] args) throws FileNotFoundException 
 	{					
-		Monsters monsters = null;
-		try {
-			monsters = new Monsters("MONSTERLIST.txt");
-		} catch (FileNotFoundException e) {
-			//Nothing
-		}
+		Monsters monsters = new Monsters("MONSTERLIST.txt");
+		
 
 		HashMap<Integer, Consumer<Monsters>> options = buildOptions();
 				
@@ -70,11 +65,13 @@ public class Lab_6_Program
 													   Input.getString("Enter Search Criteria: ")));
 			
 			options.put(5, monsters -> {
-				try {
-					monsters.loadFromFile(Input.getString("Enter file to load monsters from: "));
-				} catch (NotEnoughMonsterException | FileNotFoundException e) {
-					//nothing
-				}
+				
+					try {
+						monsters.loadFromFile(Input.getString("Enter file to load monsters from: "));
+					} catch (FileNotFoundException barf) {
+		
+					}
+				
 			});
 			options.put(6, monsters -> monsters.saveToFile(Input.getString("Enter file to save monsters to: ")));
 			options.put(7, monsters -> monsters.sort(getSortType(), getSortStrategy()));

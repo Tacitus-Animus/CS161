@@ -2,7 +2,6 @@ package labs;
 
 import java.io.FileNotFoundException;
 
-import exceptions.NotEnoughMonsterException;
 import units.monster.*;
 import utils.sort.BubbleSort;
 /**
@@ -19,14 +18,12 @@ import utils.sort.BubbleSort;
  */
 public class Lab_5_Program 
 {	
-	public static void main(String[] args)
+	public static void main(String[] args) throws FileNotFoundException
 	{
 		Monsters monsters = null;
-		try {
+
 			monsters = new Monsters("MONSTERLIST.txt");
-		} catch (FileNotFoundException | NotEnoughMonsterException e) {
-			//Nothing
-		}
+		
 		
 		monsters.sort(new BubbleSort<Monster>(), MonsterSort.BY_NAME);
 		

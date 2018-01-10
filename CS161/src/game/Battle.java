@@ -3,7 +3,6 @@ package game;
 import java.util.ArrayList;
 import java.util.stream.IntStream;
 
-import exceptions.DeadFighterIsDeadException;
 import items.Throw;
 import units.Brawler;
 import units.Fighter;
@@ -32,18 +31,16 @@ public class Battle {
 	/**
 	 * This method loops through a battle between a fighter and monster.
 	 * @param player - Fighter type that has a chance to attack first.
-	 * @throws DeadFighterIsDeadException
 	 */
-	public void fight(Fighter player) throws DeadFighterIsDeadException 
+	public void fight(Fighter player) 
 	{
 		fightLoop(player, false);
 	}
 	/**
 	 * This method loops through a battle between a fighter and monster.
 	 * @param player - Brawler type that has a 100% chance to attack first.
-	 * @throws DeadFighterIsDeadException
 	 */
-	public void fight(Brawler player) throws DeadFighterIsDeadException 
+	public void fight(Brawler player) 
 	{
 		fightLoop(player, true);
 	}
@@ -51,12 +48,10 @@ public class Battle {
 	/**
 	 * @param player
 	 * @param preEmp 
-	 * @throws DeadFighterIsDeadException
 	 */
-	private void fightLoop(Fighter player, boolean preEmp) throws DeadFighterIsDeadException {
+	private void fightLoop(Fighter player, boolean preEmp) {
 		while(!monster.isDead())
 		{
-			if(player.isDead()) throw new DeadFighterIsDeadException();
 			
 			int input = getFightOption();
 			

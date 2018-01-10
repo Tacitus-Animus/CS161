@@ -2,7 +2,6 @@ package labs;
 
 import java.io.FileNotFoundException;
 
-import exceptions.NotEnoughMonsterException;
 import units.monster.Monsters;
 /**
  * <h1>Lab 4 : File IO, ArrayList - Main Class File</h1>
@@ -20,14 +19,12 @@ import units.monster.Monsters;
  */
 public class Lab_4_Program 
 {
-	public static void main(String[] args) 
+	public static void main(String[] args) throws FileNotFoundException 
 	{
 		Monsters monsters = null;
-		try {
+		
 			monsters = new Monsters("MONSTERLIST.txt");
-		} catch (FileNotFoundException | NotEnoughMonsterException e) {
-			//Nothing.
-		}
+		
 
 		monsters.displayMonsterInfo("Slime");
 		
@@ -35,11 +32,9 @@ public class Lab_4_Program
 		
 		monsters.saveToFile("SAVED.txt");
 		
-		try {
+	
 			monsters.loadFromFile("SAVED.txt");
-		} catch (FileNotFoundException | NotEnoughMonsterException e) {
-			//Nothing.
-		}
+		
 		
 		monsters.displayMonsterInfo("Slime");
 		

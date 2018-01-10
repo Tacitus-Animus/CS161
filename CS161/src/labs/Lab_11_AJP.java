@@ -1,5 +1,7 @@
 package labs;
 
+import java.io.FileNotFoundException;
+
 import game.GameState;
 import items.Armor;
 import items.Crystal;
@@ -21,7 +23,7 @@ import world.Room;
  */
 public class Lab_11_AJP 
 {
-	public static void main(String[] args) 
+	public static void main(String[] args) throws FileNotFoundException 
 	{	
 		final Room world = LinkedRooms.getLinkedRooms();
 				

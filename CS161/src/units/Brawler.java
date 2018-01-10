@@ -1,6 +1,5 @@
 package units;
 
-import exceptions.DeadFighterIsDeadException;
 import game.Battle;
 import units.monster.Monster;
 
@@ -46,7 +45,7 @@ public class Brawler extends Fighter {
 	}
 	
 	@Override
-	public void accept(Battle battle) throws DeadFighterIsDeadException {
+	public void accept(Battle battle) {
 		battle.fight(this);
 	}
 	

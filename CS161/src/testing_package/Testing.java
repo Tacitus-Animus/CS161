@@ -3,7 +3,6 @@ package testing_package;
 import java.io.FileNotFoundException;
 import java.util.Iterator;
 
-import exceptions.NotEnoughMonsterException;
 import game.GameState;
 import units.Brawler;
 import units.Fighter;
@@ -14,12 +13,20 @@ import utils.sort.Quicksort;
 import world.RoomTree;
 
 //testing binary nodes...
+/**
+ * @author Alex Paul
+ *
+ */
 public class Testing
 {
-   public static void main(String[] args) throws FileNotFoundException, NotEnoughMonsterException 
-   {	 	  
+   /**
+ * @param args
+ * @throws FileNotFoundException
+ */
+public static void main(String[] args) throws FileNotFoundException 
+   {   
 	   //load monsters and sort...
-	   Monsters monsters = new Monsters("MONSTERLIST.txt");
+	   Monsters monsters = new Monsters("MONSTERLIST.txt"); //$NON-NLS-1$
 	   			monsters.sort(new Quicksort<>(), MonsterSort.BY_ATTACK);
 	   
 	   //create iterator...

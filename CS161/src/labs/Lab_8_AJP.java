@@ -2,8 +2,6 @@ package labs;
 
 import java.io.FileNotFoundException;
 
-import exceptions.DeadFighterIsDeadException;
-import exceptions.NotEnoughMonsterException;
 import game.Battle;
 import units.Brawler;
 import units.Fighter;
@@ -24,16 +22,11 @@ import utils.io.Input;
  */
 public class Lab_8_AJP {
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws FileNotFoundException
 	{
 		Fighter fighter = getFighterType();
 		
-		Monsters monsters = null;
-		try {
-			monsters = new Monsters("MONSTERLIST.txt");
-		} catch (FileNotFoundException | NotEnoughMonsterException e) {
-			//Nothing
-		}
+		Monsters monsters = new Monsters("MONSTERLIST.txt");
 		
 		Monster monster = monsters.search("Elites").get();
 		
@@ -42,11 +35,9 @@ public class Lab_8_AJP {
 		while(!fighter.isDead() && !monster.isDead()) {
 			fighter.print();
 			monster.print();
-			try {
+			
 				fighter.accept(new Battle(monster));
-			} catch (DeadFighterIsDeadException e) {
-				//Nothing
-			}
+			
 			Input.getStringln("Enter anything and press 'Enter' to continue fight... ");
 		}
 		

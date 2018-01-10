@@ -3,7 +3,6 @@ package world;
 import java.io.FileNotFoundException;
 import java.util.Iterator;
 
-import exceptions.NotEnoughMonsterException;
 import units.monster.Monster;
 import units.monster.MonsterSort;
 import units.monster.Monsters;
@@ -18,12 +17,13 @@ import utils.sort.Quicksort;
  */
 public class LinkedRooms 
 {			
-	public static Room getLinkedRooms() 
+	/**
+	 * @return
+	 * @throws FileNotFoundException 
+	 */
+	public static Room getLinkedRooms() throws FileNotFoundException 
 	{
-		Monsters monsters = null;
-		try {
-			monsters = new Monsters("MONSTERLIST.txt");
-		} catch (FileNotFoundException | NotEnoughMonsterException e) {}
+		Monsters monsters = new Monsters("MONSTERLIST.txt"); //$NON-NLS-1$
 		
 		monsters.sort(new Quicksort<>(), MonsterSort.BY_ATTACK);
 					

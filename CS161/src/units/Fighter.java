@@ -3,7 +3,6 @@ package units;
 import java.util.Optional;
 import java.util.Random;
 
-import exceptions.DeadFighterIsDeadException;
 import game.Battle;
 import items.Armor;
 import items.Bag;
@@ -158,7 +157,7 @@ public class Fighter extends LivingBeing
 	 * @param battle - The battle that visits this Fighter Type and handles fight behavior.
 	 * @throws DeadFighterIsDeadException
 	 */
-	public void accept(Battle battle) throws DeadFighterIsDeadException {
+	public void accept(Battle battle) {
 		battle.fight(this);
 	}
 	
