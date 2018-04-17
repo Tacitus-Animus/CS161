@@ -2,6 +2,8 @@ package units.monster;
 
 import java.util.Comparator;
 
+import labs.Lab_6_Program;
+
 /**
  * <h1>Lab 6 : Binary Search/Quick Sort Package</h1>
  * This Class contains constant comparators used in sorting Arraylists of Monsters.

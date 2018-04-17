@@ -2,6 +2,8 @@ package units.monster;
 
 import java.util.function.Function;
 
+import labs.Lab_6_Program;
+
 /**
  * <h1>Lab 6 : Binary Search/Quick Sort Package</h1>
  * This Class contains constant Functions used in printing String value attributes of Monsters.

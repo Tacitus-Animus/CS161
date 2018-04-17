@@ -32,7 +32,7 @@ public class Room extends Map {
 	private void setPrev(Room prev) 
 	{
 		this.prev = prev;
-		this.setLocation(new Portal((Map)prev, 3, 2), 0, 2);
+		this.setLocation(new Portal(prev, 3, 2), 0, 2);
 	}
 
 	public Room getNext() {
@@ -42,7 +42,7 @@ public class Room extends Map {
 	public void setNext(Room next) 
 	{
 		this.next = next;
-		this.setLocation(new Portal((Map)next, 1, 2), 4, 2);
+		this.setLocation(new Portal(next, 1, 2), 4, 2);
 		next.setPrev(this);
 	}
 

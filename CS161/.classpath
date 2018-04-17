@@ -3,6 +3,5 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry exported="true" kind="src" path="/AJP"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="org.eclipse.jdt.annotation_2.1.100.v20170511-1408.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

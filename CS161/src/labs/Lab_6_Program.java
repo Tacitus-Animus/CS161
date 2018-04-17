@@ -3,10 +3,19 @@ import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.function.Consumer;
 
-import units.monster.*;
+import units.monster.Monster;
+import units.monster.MonsterPrint;
+import units.monster.MonsterSearch;
+import units.monster.MonsterSort;
+import units.monster.Monsters;
 import utils.io.Input;
-import utils.search.*;
-import utils.sort.*;
+import utils.search.BinarySearch;
+import utils.search.LinearSearch;
+import utils.search.Search;
+import utils.sort.BubbleSort;
+import utils.sort.Quicksort;
+import utils.sort.SelectionSort;
+import utils.sort.Sort;
 /**
  * <h1>Lab 6 : Binary Search/Quick Sort - Main Class File</h1>
  * This is the main program file which gets monster data from a file.

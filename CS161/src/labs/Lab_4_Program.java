@@ -2,6 +2,7 @@ package labs;
 
 import java.io.FileNotFoundException;
 
+import units.monster.Monster;
 import units.monster.Monsters;
 /**
  * <h1>Lab 4 : File IO, ArrayList - Main Class File</h1>

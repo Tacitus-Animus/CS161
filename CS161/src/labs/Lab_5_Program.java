@@ -2,7 +2,10 @@ package labs;
 
 import java.io.FileNotFoundException;
 
-import units.monster.*;
+import units.monster.Monster;
+import units.monster.MonsterPrint;
+import units.monster.MonsterSort;
+import units.monster.Monsters;
 import utils.sort.BubbleSort;
 /**
  * <h1>Lab 5 : Bubble/Selection Sort - Main Class File</h1>

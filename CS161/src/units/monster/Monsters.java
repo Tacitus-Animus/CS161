@@ -12,8 +12,9 @@ import java.util.Iterator;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import utils.search.*;
-import utils.sort.*;
+import utils.search.LinearSearch;
+import utils.search.Search;
+import utils.sort.Sort;
 
 /**
  * <h1>Lab 6 : Binary Search/Quick Sort - Helper Class File</h1>
