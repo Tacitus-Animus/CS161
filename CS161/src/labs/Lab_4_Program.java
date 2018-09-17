@@ -22,20 +22,15 @@ public class Lab_4_Program
 {
 	public static void main(String[] args) throws FileNotFoundException 
 	{
-		Monsters monsters = null;
+		Monsters monsters = new Monsters("MONSTERLIST.txt");
 		
-			monsters = new Monsters("MONSTERLIST.txt");
-		
-
 		monsters.displayMonsterInfo("Slime");
 		
 		monsters.attackMonster("Slime", 10);
 		
 		monsters.saveToFile("SAVED.txt");
 		
-	
-			monsters.loadFromFile("SAVED.txt");
-		
+		monsters.loadFromFile("SAVED.txt");
 		
 		monsters.displayMonsterInfo("Slime");
 		

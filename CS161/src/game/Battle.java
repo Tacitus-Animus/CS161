@@ -34,7 +34,7 @@ public class Battle {
 	 */
 	public void fight(Fighter player) 
 	{
-		fightLoop(player, false);
+		RandomTurn(player);
 	}
 	/**
 	 * This method loops through a battle between a fighter and monster.
@@ -42,21 +42,56 @@ public class Battle {
 	 */
 	public void fight(Brawler player) 
 	{
-		fightLoop(player, true);
+		preEmptive(player);
 	}
 	
 	/**
 	 * @param player
 	 * @param preEmp 
 	 */
-	private void fightLoop(Fighter player, boolean preEmp) {
+	private void RandomTurn(Fighter player) {
 		while(!monster.isDead())
 		{
 			
 			int input = getFightOption();
 			
-			if(input == 1) pre_emptive_Strike(player, preEmp);
-			else if(input == 2)  {
+			if(input == 1) {
+				double result = Math.random();
+				
+				if(result < 0.5) 
+				{
+					player.attack(monster);
+					monster.attack(player);
+				}else {
+					monster.attack(player);
+					player.attack(monster);
+				}		
+			
+				player.print();
+				monster.print();
+				
+			}else if(input == 2)  {
+				System.out.println("Run away!"); break;
+			}else throwItem(player);
+		}
+	}
+	
+	/**
+	 * @param player
+	 * @param preEmp 
+	 */
+	private void preEmptive(Fighter player) {
+		while(!monster.isDead())
+		{
+			
+			int input = getFightOption();
+			
+			if(input == 1) {
+				player.attack(monster);
+				monster.attack(player);
+				player.print();
+				monster.print();
+			}else if(input == 2)  {
 				System.out.println("Run away!"); break;
 			}else throwItem(player);
 		}
@@ -93,34 +128,6 @@ public class Battle {
 	 */
 	public void setMonster(Monster monster) {
 		this.monster = monster;
-	}
-	
-	/**
-	 * @param player - The fighter that attacks monster and visa versa.
-	 * @param hitsFirst - Determines if fighter attacks first else 50/50 chance.
-	 */
-	private void pre_emptive_Strike(Fighter player, boolean hitsFirst)
-	{
-		if(hitsFirst)
-		{
-			player.attack(monster);
-			monster.attack(player);
-		}else {
-			double result = Math.random();
-			
-			if(result < 0.5) 
-			{
-				player.attack(monster);
-				monster.attack(player);
-			}else {
-				monster.attack(player);
-				player.attack(monster);
-			}		
-		}
-		
-		player.print();
-		monster.print();
-		
 	}
 	
 }

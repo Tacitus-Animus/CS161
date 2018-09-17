@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import utils.search.LinearSearch;
@@ -149,7 +150,7 @@ public class Monsters
 	 * @param searchStrategy - The BiFunction used to search by user input and specific monster attributes.
 	 * @param searchCriteria - The user input used to search for monster with matching attribute.
 	 */
-	public Optional<Monster> search(Search<Monster> searchType, MonsterSearch searchStrategy, String searchCriteria) 
+	public Optional<Monster> search(Search<Monster, String> searchType, MonsterSearch searchStrategy, String searchCriteria) 
 	{
 		return searchType.search(monsters, searchStrategy.get(), searchCriteria);
 	}
@@ -159,7 +160,7 @@ public class Monsters
 	 */
 	public Optional<Monster> search(String searchCriteria) 
 	{
-		return new LinearSearch<Monster>().search(monsters, MonsterSearch.BY_NAME.get(), searchCriteria);
+		return new LinearSearch<Monster, String>().search(monsters, MonsterSearch.BY_NAME.get(), searchCriteria);
 	}
 	
 	/**
@@ -178,4 +179,20 @@ public class Monsters
 		return monsters.iterator();
 	}
 
+	/**
+	 * {@code search(name)} will pass a monster through the method reference {@code alternator::eccept}. 
+	 * The client's {@code Consumer<Monster>} will alter the monster as specified.
+	 * Example: 
+	 * <br>{@code monsters.changeMonsterInfo("Slime", (monster) -> {
+			monster.setName("Avatar");
+		});}
+	 * @param name
+	 * @param alternator
+	 */
+	public void changeMonsterInfo(String name, Consumer<Monster> alternator) {
+		
+		search(name).ifPresentOrElse(alternator::accept, () -> System.out.println(name + " doesn't exist"));
+		
+	}
+	
 }

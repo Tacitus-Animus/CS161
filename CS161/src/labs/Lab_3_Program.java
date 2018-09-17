@@ -20,12 +20,12 @@ public class Lab_3_Program
 {
 	public static void main(String[] args) throws FileNotFoundException 
 	{
-		Monsters monsters = null;
+		Monsters monsters = new Monsters("MONSTERLIST.txt");
 		
-			monsters = new Monsters("MONSTERLIST.txt");
-		
-		
-		monsters.changeMonsterInfo("Slime", "Avatar", 1000.5f, 500, 7777);
+		//experimenting with Consumers...
+		monsters.changeMonsterInfo("Slime", (monster) -> {
+			monster.setName("Avatar");
+		});
 
 		monsters.attackMonster("Avatar", 500.3f);
 		

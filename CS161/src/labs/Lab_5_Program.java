@@ -4,8 +4,10 @@ import java.io.FileNotFoundException;
 
 import units.monster.Monster;
 import units.monster.MonsterPrint;
+import units.monster.MonsterSearch;
 import units.monster.MonsterSort;
 import units.monster.Monsters;
+import utils.search.BinarySearch;
 import utils.sort.BubbleSort;
 /**
  * <h1>Lab 5 : Bubble/Selection Sort - Main Class File</h1>
@@ -23,14 +25,17 @@ public class Lab_5_Program
 {	
 	public static void main(String[] args) throws FileNotFoundException
 	{
-		Monsters monsters = null;
-
-			monsters = new Monsters("MONSTERLIST.txt");
+		Monsters monsters = new Monsters("MONSTERLIST.txt");
 		
-		
-		monsters.sort(new BubbleSort<Monster>(), MonsterSort.BY_NAME);
+		monsters.sort(new BubbleSort<>(), MonsterSort.BY_NAME);
 		
 		monsters.printList(MonsterPrint.BY_NAME);
+		
+		monsters.search(new BinarySearch<>(), MonsterSearch.BY_NAME, "Poop")
+		.ifPresentOrElse(
+				(m) -> System.out.println("YES"), 
+				() -> System.out.println("NO"));
+		
 	}
 		
 }

@@ -23,7 +23,7 @@ public class Lab_9_AJP
 	{
 		final Battle battle = new Battle();
 
-		final Monsters monsters = loadMonsters();
+		final Monsters monsters = new Monsters(Input.getString("Enter Monster File: "));
 		
 		final Monster monster = monsters.search("Elites").get();
 		
@@ -51,18 +51,6 @@ public class Lab_9_AJP
 				continue Fight; //Keep fighting!
 			}
 		}
-	}
-
-	private static Monsters loadMonsters() throws FileNotFoundException 
-	{
-		Monsters monsters;
-		
-	
-				monsters = new Monsters(Input.getString("Enter Monster File: "));
-			
-			
-		
-		return monsters;
 	}
 
 	private static Fighter getFighterType() 

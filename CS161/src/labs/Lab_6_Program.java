@@ -78,7 +78,7 @@ public class Lab_6_Program
 					try {
 						monsters.loadFromFile(Input.getString("Enter file to load monsters from: "));
 					} catch (FileNotFoundException barf) {
-		
+						//yuck
 					}
 				
 			});
@@ -92,15 +92,15 @@ public class Lab_6_Program
 	 * 
 	 * @return - The Search Object used to search for a specific monster.
 	 */
-	private static Search<Monster> getSearchType()
+	private static Search<Monster,String> getSearchType()
 	{
 		System.out.println("1. Binary Search\n" +
 						   "2. Linear Search\n");
 
 		int sortOption = Input.getIntRange("Which search method would you like to use? (1-2): ", 1, 2);	
 		
-		if(sortOption == 1) return new BinarySearch<Monster>();
-							return new LinearSearch<Monster>();
+		if(sortOption == 1) return new BinarySearch<Monster,String>();
+							return new LinearSearch<Monster,String>();
 	}
 
 	/**
